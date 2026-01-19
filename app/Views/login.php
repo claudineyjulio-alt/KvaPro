@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - EletCAD</title>
-    <link rel="icon" type="image/png" href="<?= base_url('assets/img/favicon.png') ?>">
+    <title>Login - KvaPro</title> <link rel="icon" type="image/png" href="<?= base_url('assets/img/favicon.png') ?>">
+    
+    <meta name="X-CSRF-TOKEN" content="<?= csrf_hash() ?>">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -26,18 +28,17 @@
         .bg-grid-slate-200 { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(203 213 225 / 0.6)'%3E%3Cpath d='M0 .5H31.5V32'/%3E%3C/svg%3E"); }
     </style>
 </head>
-<body class="bg-gray-50 font-sans text-eletgray bg-grid-slate-200 min-h-screen flex flex-col items-center justify-center p-4">
+<body class="bg-gray-50 font-sans text-eletgray bg-grid-slate-100 min-h-screen flex flex-col items-center justify-center p-4">
 
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 md:p-10 border border-gray-100 relative overflow-hidden">
         
         <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-eletred to-eletred-dark"></div>
 
         <div class="flex flex-col items-center mb-8">
-            <div class="w-24 h-24 mb-4 relative hover:scale-105 transition-transform duration-300">
-                <img src="<?= base_url('assets/img/logo.png') ?>" alt="EletCAD Logo" class="w-full h-full object-contain drop-shadow-lg">
+            <div class="w-80 h-80 mb-4 relative hover:scale-105 transition-transform duration-300">
+                <img src="<?= base_url('assets/img/logo.png') ?>" alt="KvaPro Logo" class="w-full h-full object-contain drop-shadow-lg">
             </div>
-            <h1 class="text-3xl font-extrabold tracking-tight text-eletgray">EletCAD</h1>
-            <p class="text-sm text-gray-500 font-medium mt-1 uppercase tracking-wide">Painéis & Automação</p>
+            <p class="text-sm text-gray-500 font-medium mt-1 uppercase tracking-wide">Dimensionamento de Padrão</p>
         </div>
 
         <div class="flex flex-col items-center space-y-4">
@@ -56,46 +57,56 @@
 
         <div class="text-center">
             <p class="text-xs text-gray-400">
-                &copy; <?= date('Y') ?> EletCAD. Todos os direitos reservados.
+                &copy; <?= date('Y') ?> KvaPro. Todos os direitos reservados.
             </p>
-            <div class="mt-4 flex justify-center items-center gap-2 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-                 <span class="text-[10px] text-gray-400">Powered by</span>
-                 <img src="<?= base_url('assets/img/logoElet.png') ?>" alt="Elet Elétrica" class="h-4">
-            </div>
         </div>
+            <div class="mt-4 flex justify-center items-center gap-2 opacity-100 grayscale hover:grayscale-0 transition-all duration-500">
+                 <span class="text-[10px] text-gray-400">Desenvolvido por: </span>
+                 <a href= "https://elet.com.br" ><img src="<?= base_url('assets/img/logoElet.png') ?>" alt="Elet Elétrica" class="h-4"></a>
+            </div>
     </div>
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
-        // Função chamada quando o Google devolve o token
         function handleCredentialResponse(response) {
-            // Mostra carregando...
             const btnDiv = document.getElementById('buttonDiv');
             btnDiv.innerHTML = '<span class="text-eletred font-semibold animate-pulse">Validando acesso...</span>';
 
-            // Envia para o seu Backend via AJAX (POST)
+            // Captura o nome e o valor do token CSRF das meta tags
+            var csrfName = document.querySelector('meta[name="X-CSRF-TOKEN"]').getAttribute('content'); // CI4 padrão usa X-CSRF-TOKEN no header
+            
+            // CORREÇÃO: O CodeIgniter espera o token no header ou no body. 
+            // Vamos mandar no Header para ficar mais limpo.
+
             fetch("<?= base_url('login/callback') ?>", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
-                    "X-Requested-With": "XMLHttpRequest"
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-TOKEN": csrfName // <--- ADICIONADO: O Token de segurança
                 },
                 body: "credential=" + response.credential
             })
-            .then(res => res.json())
+            .then(async res => {
+                // Se a resposta não for OK (200), forçamos o erro para cair no catch ou tratar aqui
+                if (!res.ok) {
+                    const text = await res.text(); // Pega o erro PHP real
+                    throw new Error(text || res.statusText);
+                }
+                return res.json();
+            })
             .then(data => {
                 if (data.success) {
-                    // Sucesso! Redireciona para o dashboard
                     window.location.href = data.redirectUrl;
                 } else {
-                    // Erro do backend
                     showError("Erro: " + (data.error || "Falha no login"));
-                    renderGoogleButton(); // Redesenha o botão
+                    renderGoogleButton();
                 }
             })
             .catch(err => {
-                showError("Erro de conexão com o servidor.");
-                console.error(err);
+                // Aqui vamos mostrar o erro real no console para ajudar no debug
+                console.error("Erro detalhado:", err);
+                showError("Erro no login. Verifique o console (F12) para detalhes.");
                 renderGoogleButton();
             });
         }
@@ -106,22 +117,22 @@
             errDiv.classList.remove('hidden');
         }
 
-        // Inicializa o Google
-        window.onload = function () {
+    window.onload = function () {
+            // Inicializa a configuração
             google.accounts.id.initialize({
                 client_id: "<?= getenv('GOOGLE_CLIENT_ID') ?>",
                 callback: handleCredentialResponse,
-                auto_select: false, // Não tenta logar automático se já autorizou antes
+                auto_select: false, // Tenta logar automático se o usuário já usou antes
                 cancel_on_tap_outside: false
             });
 
-            // Renderiza o botão no estilo novo
+            // 1. Renderiza o botão normal
             renderGoogleButton();
 
-            // Ativa o One Tap (o popup no topo)
+            // 2. Chama o One Tap (O Popup no topo) - ESTAVA FALTANDO ISSO
             google.accounts.id.prompt((notification) => {
                 if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-                    console.log("One Tap não exibido/pulado");
+                    console.log("One Tap não apareceu por:", notification.getNotDisplayedReason());
                 }
             });
         };
@@ -129,14 +140,7 @@
         function renderGoogleButton() {
             google.accounts.id.renderButton(
                 document.getElementById("buttonDiv"),
-                { 
-                    theme: "outline", 
-                    size: "large", 
-                    width: "280", // Largura do botão
-                    text: "signin_with",
-                    shape: "pill",
-                    logo_alignment: "left"
-                }
+                { theme: "outline", size: "large", width: "280", text: "signin_with", shape: "pill", logo_alignment: "left" }
             );
         }
     </script>

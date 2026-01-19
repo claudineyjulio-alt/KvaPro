@@ -7,12 +7,12 @@
     <!-- Boas Vindas -->
     <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
         <div>
-            <h1 class="text-3xl font-bold text-white mb-2">Olá, <?= explode(' ', session()->get('nome'))[0] ?>! 👋</h1>
+            <h1 class="text-3xl font-bold text-white mb-2">Olá, <a href="<?= base_url('perfil') ?>"><?= explode(' ', session()->get('nome'))[0] ?>!</a> 👋</h1>
             <p class="text-slate-400">Bem-vindo ao seu painel de engenharia.</p>
         </div>
         
         <div class="flex gap-3">
-            <a href="<?= base_url('diagrama') ?>" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-lg font-medium shadow-lg shadow-blue-900/20 transition-all hover:scale-105">
+            <a href="<?= base_url('projeto/novo') ?>" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-lg font-medium shadow-lg shadow-blue-900/20 transition-all hover:scale-105">
                 <i data-lucide="plus-square" class="w-5 h-5"></i>
                 Novo Projeto
             </a>

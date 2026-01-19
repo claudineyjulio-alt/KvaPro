@@ -11,7 +11,13 @@ class UsuarioModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
-    protected $allowedFields    = ['google_id', 'nome', 'email', 'foto', 'nivel'];
+    // Adicionei os novos campos aqui
+    protected $allowedFields    = [
+        'google_id', 'nome', 'email', 'foto', 'nivel', 
+        'razao_social', 'cnpj', 'telefone', 'tipo_profissional','area_atuacao',
+        'registro_orgao', 'registro_uf', 'registro_numero',
+        'email_contato', 'termos_aceite', 'validade', 'cadastro_completo'
+    ];
 
     // Datas automáticas
     protected $useTimestamps = true;

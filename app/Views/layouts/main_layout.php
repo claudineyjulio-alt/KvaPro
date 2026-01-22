@@ -46,7 +46,7 @@
             <!-- Navegação Principal -->
             <nav class="hidden md:flex gap-1 ml-6">
                 <a href="#" class="px-3 py-2 text-sm bg-slate-800 text-white rounded-md font-medium transition-colors">Projetos</a>
-                <a href="<?= base_url('simbolos') ?>" class="px-3 py-2 text-sm hover:bg-slate-800 text-slate-400 hover:text-white rounded-md transition-colors">Biblioteca</a>
+                <a href="<?= base_url('admin/materiais') ?>" class="px-3 py-2 text-sm hover:bg-slate-800 text-slate-400 hover:text-white rounded-md transition-colors">Biblioteca</a>
                 <a href="#" class="px-3 py-2 text-sm hover:bg-slate-800 text-slate-400 hover:text-white rounded-md transition-colors">Clientes</a>
             </nav>
         </div>

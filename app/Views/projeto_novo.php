@@ -38,7 +38,7 @@
 
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div class="bg-gray-50 px-6 py-4 border-b border-gray-100 flex items-center gap-2">
-                    <span class="bg-eletblue text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                    <span class="bg-eletblue text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">1</span>
                     <h2 class="font-semibold text-gray-700">Identificação do Projeto</h2>
                 </div>
                 <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -76,7 +76,7 @@
 
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div class="bg-gray-50 px-6 py-4 border-b border-gray-100 flex items-center gap-2">
-                    <span class="bg-eletblue text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                    <span class="bg-eletblue text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">2</span>
                     <h2 class="font-semibold text-gray-700">Parâmetros da Concessionária</h2>
                 </div>
                 <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -113,6 +113,71 @@
                             <option value="Fachada">Fachada</option>
                             <option value="Pontalete">Pontalete</option>
                         </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="bg-gray-50 px-6 py-4 border-b border-gray-100 flex items-center gap-2">
+                    <span class="bg-eletblue text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                    <h2 class="font-semibold text-gray-700">Geral</h2>
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3 border-b border-gray-100 pb-1">Padrão de Entrada</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Cabo de Entrada *</label>
+                            <input type="text" name="entrada_cabo" id="entrada_cabo" placeholder="Ex: 3#35(35)mm²" required class="w-full border-gray-300 rounded text-sm p-2 border focus:ring-eletblue focus:border-eletblue">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Eletroduto Entrada *</label>
+                            <input type="text" name="entrada_eletroduto" id="entrada_eletroduto" placeholder='Ex: Ø 2"' required class="w-full border-gray-300 rounded text-sm p-2 border focus:ring-eletblue focus:border-eletblue">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Disjuntor Geral *</label>
+                            <input type="text" name="entrada_disjuntor" id="entrada_disjuntor" placeholder="Ex: 100A" required class="w-full border-gray-300 rounded text-sm p-2 border focus:ring-eletblue focus:border-eletblue">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Fases (Geral) *</label>
+                            <select name="numero_fases" id="numero_fases" class="w-full border-gray-300 rounded text-sm p-2 bg-white border focus:ring-eletblue focus:border-eletblue">
+                                <option value="3">Trifásico (3 Fases)</option>
+                                <option value="2">Bifásico (2 Fases)</option>
+                                <option value="1">Monofásico (1 Fase)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3 border-b border-gray-100 pb-1">Proteção (DPS)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Tensão DPS</label>
+                            <input type="text" name="dps_tensao" id="dps_tensao" value="275V" placeholder="Ex: 275V" class="w-full border-gray-300 rounded text-sm p-2 border focus:ring-eletblue focus:border-eletblue">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Capacidade (kA)</label>
+                            <input type="text" name="dps_ka" id="dps_ka" value="20kA" placeholder="Ex: 20kA" class="w-full border-gray-300 rounded text-sm p-2 border focus:ring-eletblue focus:border-eletblue">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Cabo DPS</label>
+                            <input type="text" name="dps_cabo" id="dps_cabo" value="#10mm²" placeholder="Ex: #10mm²" class="w-full border-gray-300 rounded text-sm p-2 border focus:ring-eletblue focus:border-eletblue">
+                        </div>
+                    </div>
+
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3 border-b border-gray-100 pb-1">Aterramento</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Cabo Terra</label>
+                            <input type="text" name="terra_cabo" id="terra_cabo" value="Cobre Nú #35mm²" placeholder="Ex: Cobre Nú #35mm²" class="w-full border-gray-300 rounded text-sm p-2 border focus:ring-eletblue focus:border-eletblue">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Eletroduto Terra</label>
+                            <input type="text" name="terra_tubo" id="terra_tubo" value='Ø 3/4"' placeholder='Ex: Ø 3/4"' class="w-full border-gray-300 rounded text-sm p-2 border focus:ring-eletblue focus:border-eletblue">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Hastes</label>
+                            <input type="text" name="terra_hastes" id="terra_hastes" value="3 Hastes Alta Camada" placeholder="Ex: 3 Hastes 2.40m" class="w-full border-gray-300 rounded text-sm p-2 border focus:ring-eletblue focus:border-eletblue">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -193,17 +258,19 @@
         </div>
     </div>
 
-    <div id="modal-editar" class="fixed inset-0 bg-black bg-opacity-50 hidden z-[70] flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6">
-            <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-eletblue" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-                Editar Medição
-            </h3>
+
+    <template id="tpl-unidade">
+        <div class="unidade-row bg-white border border-gray-200 rounded-lg p-4 mb-3 shadow-sm relative group hover:border-eletblue transition-all">
             
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Classe</label>
-                    <select id="edit_classe" class="w-full border-gray-300 rounded text-sm p-2 bg-white">
+            <button type="button" onclick="removerLinha(this)" class="absolute top-3 right-3 text-gray-300 hover:text-red-500 transition p-1" title="Excluir">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
+            </button>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-3 mb-3 pr-8">
+                
+                <div class="md:col-span-3">
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Classe</label>
+                    <select name="unidades[INDEX][classe]" class="cls-classe w-full border-gray-300 rounded text-sm p-1.5 focus:ring-eletblue bg-gray-50 focus:bg-white border">
                         <option value="Residencial">Residencial</option>
                         <option value="Comercial">Comercial</option>
                         <option value="Industrial">Industrial</option>
@@ -211,394 +278,471 @@
                         <option value="Condominio">Condomínio</option>
                     </select>
                 </div>
-                <div>
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Categoria</label>
-                    <select id="edit_categoria" class="w-full border-gray-300 rounded text-sm p-2 bg-white" onchange="filtrarDisjuntoresModal()">
+
+                <div class="md:col-span-2">
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Categoria</label>
+                    <select name="unidades[INDEX][categoria]" class="cls-categoria w-full border-gray-300 rounded text-sm p-1.5 focus:ring-eletblue bg-gray-50 focus:bg-white border" onchange="aoMudarCategoriaDaLinha(this)">
                         <option value="M">Monofásica</option>
                         <option value="B">Bifásica</option>
                         <option value="T">Trifásica</option>
                         <option value="Calcular">A Calcular</option>
                     </select>
                 </div>
-                <div>
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Padrão / Disjuntor</label>
-                    <select id="edit_disjuntor" class="w-full border-gray-300 rounded text-sm p-2 bg-white">
+
+                <div class="md:col-span-5">
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Padrão Concessionária</label>
+                    <select name="unidades[INDEX][dimensionamento_id]" class="cls-dim-id w-full border-gray-300 rounded text-sm p-1.5 focus:ring-eletblue bg-gray-50 focus:bg-white border" onchange="aoMudarPadraoDaLinha(this)">
+                        </select>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Fases</label>
+                    <select name="unidades[INDEX][fases_especificas]" class="cls-fases w-full border-gray-300 rounded text-sm p-1.5 focus:ring-eletblue bg-gray-50 focus:bg-white border">
                         </select>
                 </div>
             </div>
 
-            <div class="flex gap-3 justify-end mt-6">
-                <button type="button" onclick="fecharModalEditar()" class="px-4 py-2 text-gray-600 hover:text-gray-800">Cancelar</button>
-                <button type="button" onclick="salvarEdicao()" class="bg-eletblue hover:bg-blue-900 text-white font-bold px-6 py-2 rounded-lg shadow transition">
-                    Salvar Alterações
-                </button>
-            </div>
-        </div>
-    </div>
+            <div class="border-t border-gray-100 my-2"></div>
 
-    <template id="tpl-unidade">
-        <div class="unidade-row bg-white border border-gray-200 rounded-lg p-3 flex flex-col md:flex-row gap-3 items-start md:items-center shadow-sm relative group hover:border-eletblue transition-colors">
-            
-            <div class="absolute top-2 right-2 md:relative md:top-0 md:right-0 md:order-last flex gap-1">
-                <button type="button" onclick="abrirModalEdicao(this)" class="text-gray-300 hover:text-eletblue transition p-1" title="Editar Dados Técnicos">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" /></svg>
-                </button>
-                <button type="button" onclick="removerLinha(this)" class="text-gray-300 hover:text-red-500 transition p-1" title="Excluir">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
-                </button>
-            </div>
-
-            <div class="flex flex-col md:w-1/4 border-b md:border-b-0 md:border-r border-gray-100 pr-2 pb-2 md:pb-0">
-                <span class="text-[10px] font-bold uppercase text-gray-400 txt-classe">Residencial</span>
-                <span class="text-sm font-bold text-eletblue txt-info-tec">M1 - 63A</span>
-                
-                <input type="hidden" class="inp-classe" name="unidades[INDEX][classe]">
-                <input type="hidden" class="inp-categoria" name="unidades[INDEX][categoria]">
-                <input type="hidden" class="inp-dim-id" name="unidades[INDEX][dimensionamento_id]">
-                <input type="hidden" class="inp-info-tec" name="unidades[INDEX][info_tecnica]">
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 w-full md:w-3/4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                 <div>
-                    <input type="text" name="unidades[INDEX][placa]" class="inp-placa w-full border-gray-300 rounded text-sm p-1.5 focus:ring-eletblue border font-semibold text-gray-700" placeholder="Identificação (Ex: Casa 1)">
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Cabo Ramal</label>
+                    <input type="text" name="unidades[INDEX][cabo]" class="cls-cabo w-full border-gray-300 rounded text-sm p-1.5 border focus:ring-eletblue text-gray-600" placeholder="Ex: 2#10(10)mm²">
                 </div>
                 <div>
-                    <input type="text" name="unidades[INDEX][numero_uc]" class="inp-uc w-full border-gray-300 rounded text-sm p-1.5 focus:ring-eletblue border" placeholder="Nº UC (Opcional)">
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Eletroduto</label>
+                    <input type="text" name="unidades[INDEX][eletroduto]" class="cls-eletroduto w-full border-gray-300 rounded text-sm p-1.5 border focus:ring-eletblue text-gray-600" placeholder='Ex: Ø 1"'>
                 </div>
                 <div>
-                    <input type="text" name="unidades[INDEX][observacao]" class="inp-obs w-full border-gray-300 rounded text-sm p-1.5 focus:ring-eletblue border" placeholder="Obs">
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Disjuntor (Texto)</label>
+                    <input type="text" name="unidades[INDEX][disjuntor]" class="cls-disjuntor w-full border-gray-300 rounded text-sm p-1.5 border focus:ring-eletblue text-gray-600" placeholder="Ex: 50A">
                 </div>
             </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div>
+                    <input type="text" name="unidades[INDEX][placa]" class="cls-placa w-full border-gray-300 rounded text-sm p-1.5 focus:ring-eletblue border font-bold text-gray-800" placeholder="Identificação (Ex: Casa 1)">
+                </div>
+                <div>
+                    <input type="text" name="unidades[INDEX][numero_uc]" class="cls-uc w-full border-gray-300 rounded text-sm p-1.5 focus:ring-eletblue border" placeholder="Nº UC (Opcional)">
+                </div>
+                <div>
+                    <input type="text" name="unidades[INDEX][observacao]" class="cls-obs w-full border-gray-300 rounded text-sm p-1.5 focus:ring-eletblue border" placeholder="Observações">
+                </div>
+            </div>
+
+            <input type="hidden" class="inp-info-tec" name="unidades[INDEX][info_tecnica]">
         </div>
     </template>
 
 <script>
-        let dadosDimensionamentoCache = [];
-        let unidadeCount = 0; // Contador único para IDs
+    let dadosDimensionamentoCache = [];
+    let unidadeCount = 0;
 
-        // --- 1. LÓGICA DE API (Busca Disjuntores) ---
-        async function atualizarDimensionamentoGlobal() {
-            const conc = document.getElementById('concessionaria_id').value;
-            const tens = document.getElementById('tensao_id').value;
-            if(!conc || !tens) return;
+    // Contadores para distribuição automática
+    let contadorFasesM = 0; 
+    let contadorFasesB = 0;
 
-            // Feedback visual no select
-            const selectAdd = document.getElementById('add_disjuntor');
-            selectAdd.innerHTML = '<option value="">Carregando padrões...</option>';
+    // --- 1. LÓGICA DE API ---
+    async function atualizarDimensionamentoGlobal() {
+        const conc = document.getElementById('concessionaria_id').value;
+        const tens = document.getElementById('tensao_id').value;
+        if(!conc || !tens) return;
 
-            try {
-                const resp = await fetch(`<?= base_url('projeto/api/dimensionamento') ?>?concessionaria=${conc}&tensao=${tens}`);
-                dadosDimensionamentoCache = await resp.json();
-                filtrarDisjuntoresLocal(); // Atualiza o select de adicionar
-            } catch (e) { 
-                console.error("Erro API", e);
-                selectAdd.innerHTML = '<option value="">Erro ao carregar</option>';
+        // Feedback no painel de adicionar lá em cima
+        const selectAdd = document.getElementById('add_disjuntor');
+        if(selectAdd) selectAdd.innerHTML = '<option value="">Carregando padrões...</option>';
+
+        try {
+            const resp = await fetch(`<?= base_url('projeto/api/dimensionamento') ?>?concessionaria=${conc}&tensao=${tens}`);
+            dadosDimensionamentoCache = await resp.json();
+            
+            // Atualiza o painel de adicionar
+            filtrarDisjuntoresLocalPainel(); 
+            
+            // [NOVO] Atualiza as linhas existentes caso mude a concessionária/tensão (opcional, mas recomendado)
+            // atualizarTodasAsLinhas(); 
+        } catch (e) { 
+            console.error("Erro API", e);
+            if(selectAdd) selectAdd.innerHTML = '<option value="">Erro ao carregar</option>';
+        }
+    }
+
+    // Filtra o select "lá de cima" (Painel Adicionar)
+    function filtrarDisjuntoresLocalPainel() {
+        const cat = document.getElementById('add_categoria').value;
+        const select = document.getElementById('add_disjuntor');
+        select.innerHTML = '';
+
+        if(cat === 'Calcular'){
+            select.add(new Option("Cálculo Automático (Manual)", "0"));
+            return;
+        }
+
+        const validos = dadosDimensionamentoCache.filter(d => d.categoria === cat);
+        if(validos.length === 0) {
+            select.add(new Option("Nenhum padrão disponível", ""));
+        } else {
+            validos.forEach(d => {
+                select.add(new Option(`${d.subcategoria} - ${d.corrente_disjuntor}A (${d.tipo_disjuntor})`, d.id));
+            });
+        }
+    }
+
+    // --- FUNÇÕES AUXILIARES DE FASE ---
+    // [NOVO] Contador Global de Cargas (Quantas vezes cada fase foi usada)
+    let cargasFases = { 'A': 0, 'B': 0, 'C': 0 };
+
+    // --- FUNÇÃO INTELIGENTE DE DISTRIBUIÇÃO ---
+    function getProximaFase(categoria) {
+        // Cria lista das fases ordenadas da MENOS usada para a MAIS usada
+        // Em caso de empate, usa ordem alfabética
+        const fasesOrdenadas = Object.keys(cargasFases).sort((a, b) => {
+            return cargasFases[a] - cargasFases[b] || a.localeCompare(b);
+        });
+
+        if (categoria === 'M') {
+            // Pega a fase mais "livre" (índice 0)
+            const escolhida = fasesOrdenadas[0];
+            cargasFases[escolhida]++; // Aumenta o peso dela
+            return escolhida;
+        } 
+        else if (categoria === 'B') {
+            // Pega as DUAS fases mais "livres" (índice 0 e 1)
+            const f1 = fasesOrdenadas[0];
+            const f2 = fasesOrdenadas[1];
+            
+            cargasFases[f1]++;
+            cargasFases[f2]++;
+            
+            // Retorna ordenado alfabeticamente (Ex: "AC" em vez de "CA")
+            return [f1, f2].sort().join('');
+        } 
+        else if (categoria === 'T') {
+            cargasFases['A']++; 
+            cargasFases['B']++; 
+            cargasFases['C']++;
+            return 'ABC';
+        }
+        return '';
+    }
+
+    function getOpcoesFase(categoria) {
+        if(categoria === 'M') return ['A', 'B', 'C'];
+        // Garante que todas as combinações possíveis apareçam
+        if(categoria === 'B') return ['AB', 'AC', 'BC', 'A', 'B']; 
+        if(categoria === 'T') return ['ABC'];
+        return [''];
+    }
+    // --- 2. LÓGICA DE LISTA (CRIAÇÃO) ---
+    
+    function adicionarNaLista() {
+        const emptyState = document.getElementById('empty-state');
+        
+        // Pega os dados INICIAIS do painel de cima
+        const classe = document.getElementById('add_classe').value;
+        const categoria = document.getElementById('add_categoria').value;
+        const dimId = document.getElementById('add_disjuntor').value;
+        const qtd = parseInt(document.getElementById('add_qtd').value) || 1;
+        
+        if(!dimId && categoria !== 'Calcular') return;
+
+        // Prepara objeto com dados iniciais
+        let dadosIniciais = { 
+            classe: classe, 
+            categoria: categoria, 
+            dimensionamento_id: dimId 
+        };
+
+        // Se tiver um padrão selecionado, pega os detalhes técnicos
+        if(dimId !== "0" && dimId !== "") {
+            const dim = dadosDimensionamentoCache.find(d => d.id == dimId);
+            if(dim) {
+                dadosIniciais.cabo = dim.cabo;
+                dadosIniciais.eletroduto = dim.eletroduto;
+                dadosIniciais.disjuntor = dim.corrente_disjuntor + "A";
+                dadosIniciais.info_tecnica = `${dim.subcategoria} - ${dim.corrente_disjuntor}A`;
             }
         }
 
-        function filtrarDisjuntoresLocal() {
-            const cat = document.getElementById('add_categoria').value;
-            const select = document.getElementById('add_disjuntor');
-            select.innerHTML = '';
+        if(emptyState) emptyState.remove();
 
-            if(cat === 'Calcular'){
-                select.add(new Option("Cálculo Automático (Manual)", "0"));
-                return;
+        for(let i=0; i < qtd; i++) {
+            // Calcula fase automática
+            dadosIniciais.fases_especificas = getProximaFase(categoria);
+            criarLinha(dadosIniciais);
+        }
+    }
+
+    // [PRINCIPAL] Cria a linha já editável
+    function criarLinha(dados) {
+        const container = document.getElementById('lista-unidades');
+        const template = document.getElementById('tpl-unidade');
+        const clone = template.content.cloneNode(true);
+        const row = clone.querySelector('.unidade-row');
+
+        // ID único
+        row.innerHTML = row.innerHTML.replace(/INDEX/g, unidadeCount);
+
+        // 1. Preenche Inputs de Texto Simples
+        row.querySelector('.cls-classe').value = dados.classe || 'Residencial';
+        row.querySelector('.cls-cabo').value = dados.cabo || '';
+        row.querySelector('.cls-eletroduto').value = dados.eletroduto || '';
+        row.querySelector('.cls-disjuntor').value = dados.disjuntor || '';
+        row.querySelector('.inp-info-tec').value = dados.info_tecnica || ''; // Mantido hidden legado
+
+        const placa = dados.placa || dados.identificacao || '';
+        if(placa) row.querySelector('.cls-placa').value = placa;
+        else {
+            const num = container.querySelectorAll('.unidade-row').length + 1;
+            row.querySelector('.cls-placa').value = `${dados.classe} ${num}`;
+        }
+
+        row.querySelector('.cls-uc').value = dados.numero_uc || '';
+        row.querySelector('.cls-obs').value = dados.observacao || '';
+
+        // 2. Configura Select de Categoria
+        const selCat = row.querySelector('.cls-categoria');
+        selCat.value = dados.categoria;
+
+        // 3. Popula Select de Padrão/Dimensionamento (Baseado na categoria)
+        popularSelectPadraoDaLinha(row, dados.dimensionamento_id);
+
+        // 4. Popula Select de Fases (Baseado na categoria)
+        popularSelectFasesDaLinha(row, dados.fases_especificas);
+
+        container.appendChild(clone);
+        unidadeCount++;
+    }
+
+    // --- FUNÇÕES DE EVENTO DA LINHA (AUTO-COMPLETE) ---
+
+    // Chamado quando muda a Categoria na linha
+    function aoMudarCategoriaDaLinha(selectCat) {
+        const row = selectCat.closest('.unidade-row');
+        const novaCat = selectCat.value;
+
+        // 1. Atualiza lista de padrões
+        popularSelectPadraoDaLinha(row, ''); // Reseta o padrão selecionado
+        
+        // 2. Atualiza lista de fases
+        popularSelectFasesDaLinha(row, ''); // Reseta a fase
+    }
+
+    // Chamado quando muda o Padrão na linha
+    function aoMudarPadraoDaLinha(selectDim) {
+        const row = selectDim.closest('.unidade-row');
+        const dimId = selectDim.value;
+
+        // Auto-preenche os dados técnicos
+        if(dimId && dimId !== '0') {
+            const dim = dadosDimensionamentoCache.find(d => d.id == dimId);
+            if(dim) {
+                row.querySelector('.cls-cabo').value = dim.cabo || '';
+                row.querySelector('.cls-eletroduto').value = dim.eletroduto || '';
+                row.querySelector('.cls-disjuntor').value = dim.corrente_disjuntor + "A";
+                row.querySelector('.inp-info-tec').value = `${dim.subcategoria} - ${dim.corrente_disjuntor}A`;
             }
+        }
+    }
 
+    // --- POPULADORES DE SELECT (INDIVIDUAL POR LINHA) ---
+
+    function popularSelectPadraoDaLinha(row, valorSelecionado) {
+        const cat = row.querySelector('.cls-categoria').value;
+        const select = row.querySelector('.cls-dim-id');
+        select.innerHTML = '';
+
+        if(cat === 'Calcular') {
+            select.add(new Option("Cálculo Automático", "0"));
+        } else {
             const validos = dadosDimensionamentoCache.filter(d => d.categoria === cat);
-            
             if(validos.length === 0) {
-                select.add(new Option("Nenhum padrão disponível para esta tensão", ""));
+                select.add(new Option("Sem padrão", ""));
             } else {
                 validos.forEach(d => {
-                    select.add(new Option(`${d.subcategoria} - ${d.corrente_disjuntor}A (${d.tipo_disjuntor})`, d.id));
+                    const opt = new Option(`${d.subcategoria} - ${d.corrente_disjuntor}A`, d.id);
+                    if(d.id == valorSelecionado) opt.selected = true;
+                    select.add(opt);
                 });
             }
         }
+        // Se mudou para uma categoria que não tem o ID antigo, força o valor para o primeiro ou vazio
+        if(select.value !== valorSelecionado && valorSelecionado) {
+             // Opcional: Avisar usuário ou limpar campos
+        }
+    }
 
-        // --- 2. LÓGICA DE LISTA (ADICIONAR/REMOVER) ---
+    function popularSelectFasesDaLinha(row, valorSelecionado) {
+        const cat = row.querySelector('.cls-categoria').value;
+        const select = row.querySelector('.cls-fases');
+        select.innerHTML = '';
+
+        const opcoes = getOpcoesFase(cat);
+        opcoes.forEach(op => {
+            const opt = new Option(op, op);
+            if(op === valorSelecionado) opt.selected = true;
+            select.add(opt);
+        });
         
-        function adicionarNaLista() {
-            const emptyState = document.getElementById('empty-state');
-            
-            // Pega valores do painel de adição
-            const classe = document.getElementById('add_classe').value;
-            const categoria = document.getElementById('add_categoria').value;
-            const dimId = document.getElementById('add_disjuntor').value;
-            const qtd = parseInt(document.getElementById('add_qtd').value) || 1;
-            
-            // Validação simples
-            if(!dimId && categoria !== 'Calcular') {
-                // Não faz nada se não tiver disjuntor selecionado (exceto se for calcular)
-                return;
-            }
+        // Se não tiver valor selecionado (ex: nova linha manual), pega o automático (se estiver criando)
+        // Mas como aqui já estamos na linha, ideal é selecionar o primeiro ou manter vazio
+    }
 
-            // Descobre texto técnico para exibição
-            let infoTecnica = "A Calcular";
-            if(dimId !== "0" && dimId !== "") {
-                const dim = dadosDimensionamentoCache.find(d => d.id == dimId);
-                if(dim) infoTecnica = `${dim.subcategoria} - ${dim.corrente_disjuntor}A`;
-            }
-
-            // Remove aviso de vazio se existir
-            if(emptyState) emptyState.remove();
-
-            // Loop para criar X linhas
-            for(let i=0; i < qtd; i++) {
-                criarLinha(classe, categoria, dimId, infoTecnica);
-            }
-            
-            // NOTA: Não limpamos os campos de cima propositalmente, 
-            // para facilitar adicionar várias medições similares.
-        }
-
-        function criarLinha(classe, categoria, dimId, infoTecnica, dadosExistentes = null) {
-            const container = document.getElementById('lista-unidades');
-            const template = document.getElementById('tpl-unidade');
-            const clone = template.content.cloneNode(true);
-            const div = clone.querySelector('.unidade-row');
-
-            // Substitui INDEX pelo contador único
-            div.innerHTML = div.innerHTML.replace(/INDEX/g, unidadeCount);
-
-            // Preenche dados visuais (somente leitura lateral)
-            div.querySelector('.txt-classe').innerText = classe;
-            div.querySelector('.txt-info-tec').innerText = infoTecnica;
-
-            // Preenche inputs hidden (dados técnicos para o backend)
-            div.querySelector('.inp-classe').value = classe;
-            div.querySelector('.inp-categoria').value = categoria;
-            div.querySelector('.inp-dim-id').value = dimId;
-            div.querySelector('.inp-info-tec').value = infoTecnica;
-
-            // Preenche os editáveis (Placa, UC, Obs)
-            if(dadosExistentes) {
-                // Mapeamento inteligente para aceitar JSON antigo (identificacao) e novo (placa)
-                const placaValor = dadosExistentes.placa || dadosExistentes.identificacao || "";
-                const ucValor    = dadosExistentes.numero_uc || "";
-                const obsValor   = dadosExistentes.observacao || "";
-
-                div.querySelector('.inp-placa').value = placaValor;
-                div.querySelector('.inp-uc').value = ucValor;
-                div.querySelector('.inp-obs').value = obsValor;
-            } else {
-                // Sugestão automática de nome para novos itens (Ex: Residencial 1)
-                const totalTipo = container.querySelectorAll('.unidade-row').length + 1;
-                div.querySelector('.inp-placa').value = `${classe} ${totalTipo}`;
-            }
-
-            container.appendChild(clone);
-            unidadeCount++;
-        }
-
-        function removerLinha(btn) {
+    // --- REMOVER / REDISTRIBUIR ---
+    function removerLinha(btn) {
+        if (confirm("Tem certeza que deseja excluir esta medição?")) {
             btn.closest('.unidade-row').remove();
-            if(document.getElementById('lista-unidades').children.length === 0) {
-                document.getElementById('lista-unidades').innerHTML = '<div id="empty-state" class="text-center py-8 text-gray-400 text-sm italic bg-gray-50 rounded-lg border border-dashed border-gray-200">Nenhuma medição adicionada ainda.</div>';
-            }
-        }
-
-        // --- 3. IMPORTAÇÃO INTELIGENTE ---
-        function abrirModalImportacao() { document.getElementById('modal-importacao').classList.remove('hidden'); }
-        function fecharModalImportacao() { 
-            document.getElementById('modal-importacao').classList.add('hidden'); 
-            document.getElementById('file-upload').value = ''; 
-        }
-
-        function processarImportacao() {
-            const file = document.getElementById('file-upload').files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = async function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    await preencherTudo(data);
-                    fecharModalImportacao();
-                    // Sucesso silencioso (sem alert)
-                } catch (error) {
-                    console.error(error);
-                    alert("Erro ao ler o arquivo .kva. Verifique o formato.");
-                }
-            };
-            reader.readAsText(file);
-        }
-
-        async function preencherTudo(data) {
-            // 1. Campos Simples (Inputs diretos)
-            const campos = ['titulo_obra', 'cliente_nome', 'tipo_obra', 'cep', 'logradouro', 'numero', 'bairro', 'cidade', 'uf', 'zona', 'complemento', 'concessionaria_id', 'tensao_id', 'tipo_ramal', 'localizacao_medidor'];
             
-            campos.forEach(id => {
-                if (data[id]) {
-                    const el = document.getElementById(id) || document.getElementsByName(id)[0];
-                    if (el) el.value = data[id];
-                }
-            });
-
-            // 2. Dispara carregamento da API e AGUARDA terminar para ter o cache
-            await atualizarDimensionamentoGlobal();
-
-            // 3. Preenche a Lista Detalhada
-            const container = document.getElementById('lista-unidades');
-            container.innerHTML = ''; 
-            unidadeCount = 0;
-
-            // CENÁRIO A: Arquivo Novo (Já tem a lista detalhada 'unidades')
-            if (data.unidades && Array.isArray(data.unidades)) {
-                data.unidades.forEach(u => {
-                    // Passa o objeto completo 'u' como dadosExistentes
-                    criarLinha(u.classe, u.categoria, u.dimensionamento_id, u.info_tecnica, u);
-                });
-            } 
-            // CENÁRIO B: Arquivo Antigo/Resumido (Tem 'medicoes' agrupadas)
-            else if (data.medicoes && Array.isArray(data.medicoes)) {
-                data.medicoes.forEach(m => {
-                    // Tenta recuperar info técnica do cache
-                    let infoTec = "Recuperado";
-                    if(m.dimensionamento_id) {
-                        const dim = dadosDimensionamentoCache.find(d => d.id == m.dimensionamento_id);
-                        if(dim) infoTec = `${dim.subcategoria} - ${dim.corrente_disjuntor}A`;
+            const lista = document.getElementById('lista-unidades');
+            if(lista.children.length === 0) {
+                lista.innerHTML = '<div id="empty-state" class="text-center py-8 text-gray-400 text-sm italic bg-gray-50 rounded-lg border border-dashed border-gray-200">Nenhuma medição adicionada ainda.</div>';
+            } else {
+                setTimeout(() => {
+                    if(confirm("Deseja redistribuir as fases para rebalancear (A, B, C...)?")) {
+                        redistribuirFasesDasUnidades();
                     }
-                    
-                    // Expande pela quantidade de repetições
-                    const qtd = parseInt(m.repeticoes) || 1;
-                    for(let i=0; i<qtd; i++) {
-                        // Passa 'm' como dados existentes, mas note que arquivos antigos 
-                        // podem não ter numero_uc/obs preenchidos.
-                        criarLinha(m.classe, m.categoria, m.dimensionamento_id, infoTec, m);
-                    }
-                });
+                }, 100);
             }
         }
+    }
 
-        // --- INICIALIZAÇÃO ---
-        document.addEventListener('DOMContentLoaded', function() {
-            // Máscara CEP e ViaCEP
-            const cepInput = document.getElementById('cep');
-            if(cepInput) {
-                cepInput.addEventListener('input', function(e) {
-                    let v = e.target.value.replace(/\D/g, '').slice(0, 8);
-                    if (v.length > 5) v = v.replace(/^(\d{5})(\d)/, '$1-$2');
-                    e.target.value = v;
-                    if (v.replace('-', '').length === 8) buscarEndereco(v.replace('-', ''));
-                });
+    function redistribuirFasesDasUnidades() {
+        // 1. Zera os contadores globais
+        cargasFases = { 'A': 0, 'B': 0, 'C': 0 };
+
+        const linhas = document.querySelectorAll('.unidade-row');
+        linhas.forEach(row => {
+            const cat = row.querySelector('.cls-categoria').value;
+            // Só recalcula se não for 'Calcular' e se não tiver fase fixa manual (opcional, aqui vou recalcular tudo)
+            if(cat !== 'Calcular') {
+                const novaFase = getProximaFase(cat);
+                
+                // Atualiza o select visível
+                const selFase = row.querySelector('.cls-fases');
+                // Precisamos garantir que a opção existe no select antes de selecionar
+                // (Geralmente já existe, mas se mudou de tipo de fase pode dar erro visual, 
+                //  mas o valor interno será salvo corretamente)
+                selFase.value = novaFase;
             }
-            async function buscarEndereco(cep) {
-                try {
-                    const r = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-                    const d = await r.json();
-                    if(!d.erro) {
-                        document.getElementById('logradouro').value = d.logradouro;
-                        document.getElementById('bairro').value = d.bairro;
-                        document.getElementById('cidade').value = d.localidade;
-                        document.getElementById('uf').value = d.uf;
-                        document.getElementById('numero').focus();
-                    }
-                } catch(e){}
+        });
+    }
+
+    // --- IMPORTAÇÃO ---
+    // (Funções abrirModalImportacao, fecharModalImportacao, processarImportacao iguais)
+    // Mantendo a lógica apenas atualizando o preencherTudo
+
+    async function preencherTudo(data) {
+        // Preenche campos gerais
+        const container = document.getElementById('lista-unidades');
+        container.innerHTML = ''; 
+        unidadeCount = 0;
+        
+        // [RESET NOVO] Zera as cargas antes de começar a importar
+        cargasFases = { 'A': 0, 'B': 0, 'C': 0 };
+
+        const campos = [
+            'titulo_obra', 'cliente_nome', 'tipo_obra', 'cep', 'logradouro', 'numero', 'bairro', 'cidade', 'uf', 'zona', 
+            'concessionaria_id', 'tensao_id', 'tipo_ramal', 'localizacao_medidor',
+            'entrada_cabo', 'entrada_eletroduto', 'entrada_disjuntor', 'numero_fases',
+            'dps_tensao', 'dps_ka', 'dps_cabo',
+            'terra_cabo', 'terra_tubo', 'terra_hastes'
+        ];
+        campos.forEach(id => {
+            if (data[id]) {
+                const el = document.getElementById(id) || document.getElementsByName(id)[0];
+                if (el) el.value = data[id];
             }
         });
 
-        // --- VARIÁVEL GLOBAL PARA EDIÇÃO ---
-        let linhaEmEdicao = null;
+        await atualizarDimensionamentoGlobal();
 
-        // --- LÓGICA DE LISTA ---
-        // (Mantenha a função adicionarNaLista e criarLinha como estavam)
-        
-        function removerLinha(btn) {
-            // [NOVO] Confirmação antes de excluir
-            if (confirm("Tem certeza que deseja excluir esta medição?")) {
-                btn.closest('.unidade-row').remove();
-                if(document.getElementById('lista-unidades').children.length === 0) {
-                    document.getElementById('lista-unidades').innerHTML = '<div id="empty-state" class="text-center py-8 text-gray-400 text-sm italic bg-gray-50 rounded-lg border border-dashed border-gray-200">Nenhuma medição adicionada ainda.</div>';
+        container.innerHTML = ''; 
+        unidadeCount = 0;
+        contadorFasesM = 0;
+        contadorFasesB = 0;
+
+        // Função unificada de dados
+        let lista = [];
+        if (data.unidades && Array.isArray(data.unidades)) lista = data.unidades;
+        else if (data.medicoes && Array.isArray(data.medicoes)) lista = data.medicoes;
+
+        lista.forEach(item => {
+            // Normaliza dados legados vs novos
+            let dadosLinha = { ...item };
+            
+            // Se for legado e tiver repetições
+            const qtd = parseInt(item.repeticoes) || 1;
+            
+            // Tenta recuperar dados técnicos do cache se faltar
+            if(item.dimensionamento_id && (!item.cabo || !item.eletroduto)) {
+                const dim = dadosDimensionamentoCache.find(d => d.id == item.dimensionamento_id);
+                if(dim) {
+                    dadosLinha.cabo = dim.cabo;
+                    dadosLinha.eletroduto = dim.eletroduto;
+                    dadosLinha.disjuntor = dim.corrente_disjuntor + "A";
+                    dadosLinha.info_tecnica = `${dim.subcategoria} - ${dim.corrente_disjuntor}A`;
                 }
             }
-        }
 
-        // --- LÓGICA DO MODAL DE EDIÇÃO ---
-
-        function abrirModalEdicao(btn) {
-            linhaEmEdicao = btn.closest('.unidade-row');
-            
-            // 1. Pega valores atuais da linha
-            const classeAtual = linhaEmEdicao.querySelector('.inp-classe').value;
-            const catAtual = linhaEmEdicao.querySelector('.inp-categoria').value;
-            const dimIdAtual = linhaEmEdicao.querySelector('.inp-dim-id').value;
-
-            // 2. Preenche os campos do modal
-            document.getElementById('edit_classe').value = classeAtual;
-            document.getElementById('edit_categoria').value = catAtual;
-            
-            // 3. Atualiza lista de disjuntores baseada na categoria
-            filtrarDisjuntoresModal();
-
-            // 4. Seleciona o disjuntor correto (precisa ser depois de filtrar)
-            document.getElementById('edit_disjuntor').value = dimIdAtual;
-
-            // 5. Mostra Modal
-            document.getElementById('modal-editar').classList.remove('hidden');
-        }
-
-        function fecharModalEditar() {
-            document.getElementById('modal-editar').classList.add('hidden');
-            linhaEmEdicao = null;
-        }
-
-        function filtrarDisjuntoresModal() {
-            const cat = document.getElementById('edit_categoria').value;
-            const select = document.getElementById('edit_disjuntor');
-            select.innerHTML = '';
-
-            if(cat === 'Calcular'){
-                select.add(new Option("Cálculo Automático", "0"));
-                return;
+            for(let i=0; i<qtd; i++) {
+                // Se não tiver fase salva, calcula
+                if(!dadosLinha.fases_especificas) {
+                    dadosLinha.fases_especificas = getProximaFase(dadosLinha.categoria || item.categoria);
+                }
+                criarLinha(dadosLinha);
             }
+        });
+    }
 
-            // Usa o cache global que já temos
-            const validos = dadosDimensionamentoCache.filter(d => d.categoria === cat);
-            if(validos.length === 0) {
-                select.add(new Option("Sem padrão disponível", ""));
-            } else {
-                validos.forEach(d => {
-                    select.add(new Option(`${d.subcategoria} - ${d.corrente_disjuntor}A (${d.tipo_disjuntor})`, d.id));
-                });
-            }
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', function() {
+        // ... (ViaCEP igual) ...
+        const cepInput = document.getElementById('cep');
+        if(cepInput) {
+            cepInput.addEventListener('input', function(e) {
+                let v = e.target.value.replace(/\D/g, '').slice(0, 8);
+                if (v.length > 5) v = v.replace(/^(\d{5})(\d)/, '$1-$2');
+                e.target.value = v;
+                if (v.replace('-', '').length === 8) buscarEndereco(v.replace('-', ''));
+            });
+        }
+        async function buscarEndereco(cep) {
+            try {
+                const r = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const d = await r.json();
+                if(!d.erro) {
+                    document.getElementById('logradouro').value = d.logradouro;
+                    document.getElementById('bairro').value = d.bairro;
+                    document.getElementById('cidade').value = d.localidade;
+                    document.getElementById('uf').value = d.uf;
+                    document.getElementById('numero').focus();
+                }
+            } catch(e){}
         }
 
-        function salvarEdicao() {
-            if(!linhaEmEdicao) return;
-
-            // 1. Pega novos valores do modal
-            const novaClasse = document.getElementById('edit_classe').value;
-            const novaCat = document.getElementById('edit_categoria').value;
-            const novoDimId = document.getElementById('edit_disjuntor').value;
-
-            // 2. Validação simples
-            if(!novoDimId && novaCat !== 'Calcular') {
-                alert("Selecione um disjuntor.");
-                return;
-            }
-
-            // 3. Descobre o novo texto técnico
-            let novaInfoTec = "A Calcular";
-            if(novoDimId !== "0" && novoDimId !== "") {
-                const dim = dadosDimensionamentoCache.find(d => d.id == novoDimId);
-                if(dim) novaInfoTec = `${dim.subcategoria} - ${dim.corrente_disjuntor}A`;
-            }
-
-            // 4. Atualiza a LINHA (Inputs Hidden)
-            linhaEmEdicao.querySelector('.inp-classe').value = novaClasse;
-            linhaEmEdicao.querySelector('.inp-categoria').value = novaCat;
-            linhaEmEdicao.querySelector('.inp-dim-id').value = novoDimId;
-            linhaEmEdicao.querySelector('.inp-info-tec').value = novaInfoTec;
-
-            // 5. Atualiza a LINHA (Visual)
-            linhaEmEdicao.querySelector('.txt-classe').innerText = novaClasse;
-            linhaEmEdicao.querySelector('.txt-info-tec').innerText = novaInfoTec;
-
-            // 6. Fecha
-            fecharModalEditar();
-        }
-    </script>
+        <?php if(isset($projeto_recuperado)): ?>
+            const dadosRecuperados = <?= $projeto_recuperado ?>;
+            setTimeout(() => { preencherTudo(dadosRecuperados); }, 500);
+        <?php endif; ?>
+    });
+    
+    // Funções Importação Modal
+    function abrirModalImportacao() { document.getElementById('modal-importacao').classList.remove('hidden'); }
+    function fecharModalImportacao() { document.getElementById('modal-importacao').classList.add('hidden'); document.getElementById('file-upload').value = ''; }
+    function processarImportacao() {
+        const file = document.getElementById('file-upload').files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            try {
+                const data = JSON.parse(e.target.result);
+                await preencherTudo(data);
+                fecharModalImportacao();
+            } catch (error) { console.error(error); alert("Erro arquivo."); }
+        };
+        reader.readAsText(file);
+    }
+</script>
 </body>
 </html>

@@ -1,52 +1,59 @@
-<?php namespace App\Models;
+<?php 
+namespace App\Models;
 
 use CodeIgniter\Model;
 
 class KitMaterialModel extends Model
 {
-    protected $table = 'kit_itens';
-    
-    // Método Mágico: Busca os itens do kit e SUBSTITUI as variáveis
-    public function buscarItensProcessados($slugKit, $dadosProjeto)
+    protected $table = 'kits'; 
+
+    /**
+     * Busca os itens de um kit estritamente pelo ID
+     * @param int $kitId
+     * @param array $dadosProjeto
+     */
+    public function buscarItensProcessados($kitId, $dadosProjeto)
     {
+        // Se não vier um número, retorna vazio (Segurança)
+        if (!is_numeric($kitId)) {
+            return [];
+        }
+
         $db = \Config\Database::connect();
+
+        // Busca os itens fazendo o JOIN com a tabela de materiais
+        $builder = $db->table('kit_itens');
+        $builder->select('materiais.descricao, materiais.unidade, kit_itens.quantidade');
+        $builder->join('materiais', 'materiais.id = kit_itens.material_id');
+        $builder->where('kit_itens.kit_id', $kitId);
         
-        // 1. Descobre o ID do kit pelo slug
-        $kit = $db->table('kits')->where('slug', $slugKit)->get()->getRow();
-        if (!$kit) return [];
+        $itens = $builder->get()->getResultArray();
 
-        // 2. Busca os materiais desse kit (JOIN)
-        $itens = $db->table('kit_itens')
-            ->select('materiais.descricao, materiais.unidade, kit_itens.quantidade')
-            ->join('materiais', 'materiais.id = kit_itens.material_id')
-            ->where('kit_itens.kit_id', $kit->id)
-            ->get()
-            ->getResultArray();
+        if (empty($itens)) {
+            return [];
+        }
 
-        // 3. Processa substituição de variáveis (Coringas)
+        // Processa Placeholders
         $itensProcessados = [];
+
         foreach ($itens as $item) {
-            $descFinal = $item['descricao'];
+            $descricaoFinal = $item['descricao'];
             
-            // Procura padrões como {variavel}
-            preg_match_all('/\{(.*?)\}/', $descFinal, $matches);
-            
-            foreach ($matches[1] as $variavel) {
-                // Se existe essa variável no JSON do projeto, substitui
-                if (isset($dadosProjeto[$variavel])) {
-                    $valor = $dadosProjeto[$variavel];
-                    $descFinal = str_replace('{' . $variavel . '}', $valor, $descFinal);
-                } else {
-                    // Se não achar, remove o placeholder ou deixa genérico
-                    $descFinal = str_replace('{' . $variavel . '}', '(Definir)', $descFinal);
+            // Substituição de Variáveis: {variavel}
+            if (preg_match_all('/\{(.*?)\}/', $descricaoFinal, $matches)) {
+                foreach ($matches[1] as $variavel) {
+                    if (isset($dadosProjeto[$variavel])) {
+                        $descricaoFinal = str_replace('{' . $variavel . '}', $dadosProjeto[$variavel], $descricaoFinal);
+                    } else {
+                        // Limpa o placeholder se não tiver dado, ou coloca um aviso
+                        $descricaoFinal = str_replace('{' . $variavel . '}', '', $descricaoFinal);
+                    }
                 }
             }
 
-            // Formata retorno para o padrão da view
             $itensProcessados[] = [
-                'item'      => 'Acessório / Componente', // Pode melhorar isso depois adicionando categoria no material
-                'descricao' => $descFinal,
-                'qtd'       => ($item['quantidade'] > 0 ? (float)$item['quantidade'] : ''), // Se for 0 deixa vazio
+                'descricao' => trim($descricaoFinal), // Trim remove espaços extras se o placeholder ficar vazio
+                'qtd'       => $item['quantidade'],
                 'unidade'   => $item['unidade']
             ];
         }

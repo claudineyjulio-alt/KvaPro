@@ -66,6 +66,20 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
         $routes->post('kits/editar/(:num)', 'Admin\Kits::form/$1');
         
         $routes->get('kits/excluir/(:num)', 'Admin\Kits::excluir/$1');
+
+        // --- REGRAS DE MATERIAIS ---
+        $routes->get('regras-materiais', 'Admin\RegrasMateriais::index');
+        
+        // Novo
+        $routes->get('regras-materiais/novo', 'Admin\RegrasMateriais::form');
+        $routes->post('regras-materiais/novo', 'Admin\RegrasMateriais::form'); // POST para salvar
+        
+        // Editar
+        $routes->get('regras-materiais/editar/(:num)', 'Admin\RegrasMateriais::form/$1');
+        $routes->post('regras-materiais/editar/(:num)', 'Admin\RegrasMateriais::form/$1'); // POST para salvar
+        
+        // Excluir
+        $routes->get('regras-materiais/excluir/(:num)', 'Admin\RegrasMateriais::excluir/$1');
     });
 
 

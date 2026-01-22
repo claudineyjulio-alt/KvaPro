@@ -57,7 +57,7 @@ class Projeto extends BaseController
         if (!session()->get('isLoggedIn')) return $this->response->setJSON([]);
         $concessionaria = $this->request->getGet('concessionaria');
         $tensao = $this->request->getGet('tensao');
-        
+
         $model = new DimensionamentoModel();
         return $this->response->setJSON($model->buscarPorConfig($concessionaria, $tensao));
     }
@@ -81,14 +81,14 @@ class Projeto extends BaseController
 
         // 3. Mapeia os dados do JSON para o formato que a View 'diagrama_unifilar' espera.
         // NOTA: Ajuste as chaves ($projeto['chave']) conforme o array que você gera no seu processamento.
-        
+
         $entrada = [
             // Tenta pegar com nomes comuns, ou usa um padrão se não achar
             'cabo'       => $projeto['entrada_cabo']       ?? $projeto['cabo_entrada']       ?? '3#35(35)mm²',
             'disjuntor'  => $projeto['entrada_disjuntor']  ?? $projeto['disjuntor_geral']    ?? '100A',
             'eletroduto' => $projeto['entrada_eletroduto'] ?? $projeto['eletroduto_entrada'] ?? 'Ø 2"',
             'fases'      => $projeto['numero_fases']       ?? 3,
-            
+
             // Dados opcionais (DPS/Terra) - Se não existirem no array, ficam null
             'cabo_dps'         => $projeto['dps_cabo']      ?? null,
             'tensao_dps'       => $projeto['dps_tensao']    ?? null,
@@ -105,10 +105,10 @@ class Projeto extends BaseController
                 $medicoes[] = [
                     // CORREÇÃO AQUI: Tenta pegar 'placa' (do formulário novo) ou 'nome' (legado)
                     'nome'       => $m['placa'] ?? $m['nome'] ?? 'Sem Nome',
-                    
+
                     // CORREÇÃO AQUI: Tenta pegar 'numero_uc' (do formulário novo) ou 'uc' (legado)
                     'uc_id'      => $m['numero_uc'] ?? $m['uc'] ?? '',
-                    
+
                     'cabo'       => $m['cabo'] ?? '',
                     'disj'       => $m['disjuntor'] ?? '',
                     'fases_especificas' => $m['fases_especificas'] ?? '', // Garante que vai para a view
@@ -128,7 +128,7 @@ class Projeto extends BaseController
     public function salvar()
     {
         if (!session()->get('isLoggedIn')) return redirect()->to('/');
-        
+
         // 1. Captura os dados da seção Geral e Identificação
         $dados = [
             'titulo_obra'         => $this->request->getPost('titulo_obra'),
@@ -151,11 +151,11 @@ class Projeto extends BaseController
             'entrada_eletroduto' => $this->request->getPost('entrada_eletroduto'),
             'entrada_disjuntor'  => $this->request->getPost('entrada_disjuntor'),
             'numero_fases'       => $this->request->getPost('numero_fases'),
-            
+
             'dps_tensao'         => $this->request->getPost('dps_tensao'),
             'dps_ka'             => $this->request->getPost('dps_ka'),
             'dps_cabo'           => $this->request->getPost('dps_cabo'),
-            
+
             'terra_cabo'         => $this->request->getPost('terra_cabo'),
             'terra_tubo'         => $this->request->getPost('terra_tubo'),
             'terra_hastes'       => $this->request->getPost('terra_hastes'),
@@ -183,14 +183,14 @@ class Projeto extends BaseController
                     'placa'              => $u['placa'] ?? '',
                     'numero_uc'          => $u['numero_uc'] ?? '',
                     'observacao'         => $u['observacao'] ?? '',
-                    
+
                     // Dados técnicos detalhados (Cabo/Tubo/Disj)
-                    'cabo'              => $u['cabo'] ?? '', 
+                    'cabo'              => $u['cabo'] ?? '',
                     'eletroduto'        => $u['eletroduto'] ?? '',
                     'disjuntor'         => $u['disjuntor'] ?? '', // Texto (ex: 50A)
                     // [NOVO] Captura as fases específicas (A, AB, BC...)
                     'fases_especificas'  => $u['fases_especificas'] ?? '',
-                    
+
                     // Mantém o cálculo numérico para lógicas internas
                     'fases'              => ($u['categoria'] == 'T') ? 3 : (($u['categoria'] == 'B') ? 2 : 1)
                 ];
@@ -198,7 +198,7 @@ class Projeto extends BaseController
         }
 
         $dados['medicoes'] = $medicoes;
-        
+
         // Debug rápido: Se quiser ver o que está chegando, descomente a linha abaixo
         // dd($dados); 
 
@@ -209,129 +209,284 @@ class Projeto extends BaseController
     public function listaMateriais()
     {
         $jsonPayload = $this->request->getPost('payload_projeto');
-        if (!$jsonPayload) return "Erro.";
+        if (!$jsonPayload) return "Erro: Payload vazio.";
 
         $p = json_decode($jsonPayload, true);
-        $kitModel = new \App\Models\KitMaterialModel();
 
-        // --- 1. ENTRADA (Concatenação Manual) ---
-        $materiaisEntrada = [];
+        $regraMatModel = new \App\Models\RegraMaterialModel();
+        $kitModel      = new \App\Models\KitMaterialModel();
 
-        if (!empty($p['entrada_cabo'])) {
-            $materiaisEntrada[] = [
-                'descricao' => 'Cabo de Entrada (Ramal de Ligação) ' . $p['entrada_cabo'], // Concatenado
-                'qtd'       => '',
-                'unidade'   => 'm'
-            ];
-        }
-        if (!empty($p['entrada_eletroduto'])) {
-            $materiaisEntrada[] = [
-                'descricao' => 'Eletroduto de Entrada ' . $p['entrada_eletroduto'], // Concatenado
-                'qtd'       => '1',
-                'unidade'   => 'Unid'
-            ];
-        }
-        if (!empty($p['entrada_disjuntor'])) {
-            $materiaisEntrada[] = [
-                'descricao' => 'Disjuntor Geral (Proteção Entrada) ' . $p['entrada_disjuntor'], // Concatenado
-                'qtd'       => '1',
-                'unidade'   => 'Unid'
-            ];
-        }
-        
-        // Itens fixos
-        $materiaisEntrada[] = ['descricao' => 'Caixa de Proteção (Padrão Concessionária)', 'qtd' => '1', 'unidade' => 'Unid'];
-        $materiaisEntrada[] = ['descricao' => 'Armação Secundária com isolador', 'qtd' => '1', 'unidade' => 'Peça'];
+        // =========================================================================
+        // PASSO 1: SELECIONAR OS KITS E GUARDAR A REGRA (AUDITORIA)
+        // =========================================================================
 
+        $idConcessionaria = $p['concessionaria_id'] ?? 1;
+        $regras = $regraMatModel->where('concessionaria_id', $idConcessionaria)
+            ->orderBy('prioridade', 'ASC')
+            ->findAll();
 
-        // --- 2. PROTEÇÃO (Kits do Banco) ---
-        
-        $slugKitTerra = 'terra_1_haste';
-        if (isset($p['terra_hastes']) && (strpos($p['terra_hastes'], '3') !== false)) {
-            $slugKitTerra = 'terra_3_hastes';
-        }
+        $kitsSelecionados = []; // Agora guarda Array: ['id' => 10, 'regra' => 'Poste 7m se for Rua']
 
-        // O Model já devolve 'descricao' concatenada com o placeholder {terra_cabo}
-        $materiaisProtecao = $kitModel->buscarItensProcessados($slugKitTerra, $p);
+        foreach ($regras as $regra) {
+            $categoria = $regra['tipo_kit'];
 
-        // DPS (Manual)
-        if (!empty($p['dps_ka']) || !empty($p['dps_tensao'])) {
-            $qtdDps = $p['numero_fases'] ?? 1;
-            array_unshift($materiaisProtecao, [
-                'descricao' => 'DPS - Dispositivo de Proteção ' . ($p['dps_ka'] ?? '') . ' ' . ($p['dps_tensao'] ?? ''),
-                'qtd'       => $qtdDps,
-                'unidade'   => 'Unid'
-            ]);
-        }
+            if (isset($kitsSelecionados[$categoria])) continue; // Já selecionado
 
-        // --- 3. MEDIÇÕES ---
-        $listaMedicoes = [];
-        
-        if (isset($p['medicoes']) && is_array($p['medicoes'])) {
-            $contagemDisj = [];
-            $tiposCabos = [];
-            $tiposEletrodutos = [];
-            $qtdCaixas = 0;
-
-            foreach ($p['medicoes'] as $m) {
-                $qtdCaixas++;
-                if (!empty($m['disjuntor'])) {
-                    $chave = $m['disjuntor'];
-                    if (!isset($contagemDisj[$chave])) $contagemDisj[$chave] = 0;
-                    $contagemDisj[$chave]++;
+            $passou = false;
+            if ($regra['variavel'] === 'padrao') {
+                $passou = true;
+            } else {
+                $valorProjeto = $p[$regra['variavel']] ?? null;
+                if ($valorProjeto !== null) {
+                    switch ($regra['condicao']) {
+                        case '=':
+                            $passou = ($valorProjeto == $regra['valor_min']);
+                            break;
+                        case '>':
+                            $passou = ($valorProjeto > $regra['valor_min']);
+                            break;
+                        case '>=':
+                            $passou = ($valorProjeto >= $regra['valor_min']);
+                            break;
+                        case '<':
+                            $passou = ($valorProjeto < $regra['valor_min']);
+                            break;
+                        case 'BETWEEN':
+                            $passou = ($valorProjeto >= $regra['valor_min'] && $valorProjeto <= $regra['valor_max']);
+                            break;
+                        case 'CONTEM':
+                            $passou = (strpos((string)$valorProjeto, (string)$regra['valor_min']) !== false);
+                            break;
+                    }
                 }
-                if (!empty($m['cabo']) && !in_array($m['cabo'], $tiposCabos)) $tiposCabos[] = $m['cabo'];
-                if (!empty($m['eletroduto']) && !in_array($m['eletroduto'], $tiposEletrodutos)) $tiposEletrodutos[] = $m['eletroduto'];
             }
 
-            // Caixa
-            $listaMedicoes[] = [
-                'descricao' => 'Caixa módulo de Medição',
-                'qtd'       => $qtdCaixas,
-                'unidade'   => 'Unid'
-            ];
-
-            // Disjuntores
-            foreach ($contagemDisj as $amp => $qtd) {
-                $listaMedicoes[] = [
-                    'descricao' => "Disjuntor Termomagnético DIN/NEMA " . $amp, // Concatenado
-                    'qtd'       => $qtd,
-                    'unidade'   => 'Unid'
-                ];
-            }
-
-            // Cabos
-            foreach ($tiposCabos as $cabo) {
-                $listaMedicoes[] = [
-                    'descricao' => "Cabo Ramal Interno (Flexível/Rígido) " . $cabo, // Concatenado
-                    'qtd'       => '',
-                    'unidade'   => 'm'
-                ];
-            }
-
-            // Eletrodutos
-            foreach ($tiposEletrodutos as $tubo) {
-                $listaMedicoes[] = [
-                    'descricao' => "Eletroduto Ramal Interno " . $tubo, // Concatenado
-                    'qtd'       => '',
-                    'unidade'   => 'm'
+            if ($passou) {
+                // AQUI ESTÁ A MUDANÇA: Guardamos o ID e a Descrição da Regra
+                $kitsSelecionados[$categoria] = [
+                    'id'    => $regra['kit_id'],
+                    'regra' => $regra['descricao'] . ' (Prioridade ' . $regra['prioridade'] . ')'
                 ];
             }
         }
 
-        // Cabeçalho
+        // =========================================================================
+        // PASSO 2: EXPANDIR E ANEXAR A ORIGEM
+        // =========================================================================
+
+        $listaBruta = [];
+
+        foreach ($kitsSelecionados as $cat => $kitData) {
+            $itensDoKit = $kitModel->buscarItensProcessados($kitData['id'], $p);
+
+            // Adiciona a origem em cada item
+            foreach ($itensDoKit as &$item) {
+                $item['origem'] = $kitData['regra']; // Ex: "Travessia de Rua exige Poste 7m"
+            }
+            $listaBruta = array_merge($listaBruta, $itensDoKit);
+        }
+
+        // Itens Manuais (Medições)
+        // if (isset($p['medicoes']) && is_array($p['medicoes'])) {
+        //     foreach ($p['medicoes'] as $m) {
+        //         $regraIndividual = "Definição Individual (Medição/Ramal)";
+        //         if (!empty($m['disjuntor'])) {
+        //             $listaBruta[] = ['descricao' => "Disjuntor Termomagnético DIN " . $m['disjuntor'], 'qtd' => 1, 'unidade' => 'Unid', 'origem' => $regraIndividual];
+        //         }
+        //         if (!empty($m['cabo'])) {
+        //             $listaBruta[] = ['descricao' => "Cabo Ramal Interno " . $m['cabo'], 'qtd' => $m['distancia'] ?? 10, 'unidade' => 'm', 'origem' => $regraIndividual];
+        //         }
+        //         if (!empty($m['eletroduto'])) {
+        //             $listaBruta[] = ['descricao' => "Eletroduto Ramal Interno " . $m['eletroduto'], 'qtd' => $m['distancia'] ?? 10, 'unidade' => 'm', 'origem' => $regraIndividual];
+        //         }
+        //     }
+        // }
+
+        // =========================================================================
+        // PASSO 3: AGRUPAMENTO INTELIGENTE (Junta descrições de regras)
+        // =========================================================================
+
+        $listaConsolidada = [];
+        foreach ($listaBruta as $item) {
+            $chave = trim($item['descricao']);
+
+            if (isset($listaConsolidada[$chave])) {
+                // Soma quantidade
+                $listaConsolidada[$chave]['qtd'] += $item['qtd'];
+
+                // Concatena a regra se for diferente (para saber que veio de 2 lugares)
+                // Ex: "Regra Poste + Regra Aterramento"
+                if (strpos($listaConsolidada[$chave]['origem'], $item['origem']) === false) {
+                    $listaConsolidada[$chave]['origem'] .= " + " . $item['origem'];
+                }
+            } else {
+                $listaConsolidada[$chave] = $item;
+            }
+        }
+
+        $listaFinal = array_values($listaConsolidada);
+
+        // Ordenação
+        usort($listaFinal, function ($a, $b) {
+            return strcasecmp($a['descricao'], $b['descricao']);
+        });
+
+        // =========================================================================
+        // PASSO 4: RETORNO
+        // =========================================================================
+
         $cabecalho = [
             'obra'     => $p['titulo_obra'] ?? '',
             'cliente'  => $p['cliente_nome'] ?? '',
-            'endereco' => ($p['logradouro'] ?? '') . ', ' . ($p['numero'] ?? '') . ' - ' . ($p['cidade'] ?? '')
+            'endereco' => ($p['logradouro'] ?? '') . ', ' . ($p['numero'] ?? '')
         ];
 
         return view('lista_materiais', [
             'cabecalho' => $cabecalho,
-            'entrada'   => $materiaisEntrada,
-            'protecao'  => $materiaisProtecao,
-            'medicoes'  => $listaMedicoes
+            'materiais' => $listaFinal,
+            'medicoes'  => []
         ]);
     }
-    
+
+    // public function listaMateriais()
+    // {
+    //     // 1. Recebe e Decodifica o JSON
+    //     $jsonPayload = $this->request->getPost('payload_projeto');
+    //     if (!$jsonPayload) return "Erro: Payload vazio.";
+
+    //     $p = json_decode($jsonPayload, true);
+
+    //     // Inicializa Models
+    //     $regraMatModel = new \App\Models\RegraMaterialModel();
+    //     $kitModel      = new \App\Models\KitMaterialModel();
+
+    //     // =========================================================================
+    //     // PASSO 1: SELECIONAR OS KITS (MOTOR DE REGRAS)
+    //     // =========================================================================
+
+    //     $idConcessionaria = $p['concessionaria_id'] ?? 1;
+
+    //     // Busca regras ordenadas pela prioridade (1 primeiro, 99 por último)
+    //     $regras = $regraMatModel->where('concessionaria_id', $idConcessionaria)
+    //         ->orderBy('prioridade', 'ASC')
+    //         ->findAll();
+
+    //     $kitsSelecionadosIds = [];
+
+    //     foreach ($regras as $regra) {
+    //         $categoria = $regra['tipo_kit'];
+
+    //         // Se já selecionamos um kit para esta categoria (prioridade maior), pula os próximos
+    //         if (isset($kitsSelecionadosIds[$categoria])) {
+    //             continue;
+    //         }
+
+    //         // Avalia a condição
+    //         $passou = false;
+
+    //         if ($regra['variavel'] === 'padrao') {
+    //             $passou = true;
+    //         } else {
+    //             $valorProjeto = $p[$regra['variavel']] ?? null;
+
+    //             if ($valorProjeto !== null) {
+    //                 switch ($regra['condicao']) {
+    //                     case '=':
+    //                         $passou = ($valorProjeto == $regra['valor_min']);
+    //                         break;
+    //                     case '>':
+    //                         $passou = ($valorProjeto > $regra['valor_min']);
+    //                         break;
+    //                     case '>=':
+    //                         $passou = ($valorProjeto >= $regra['valor_min']);
+    //                         break;
+    //                     case '<':
+    //                         $passou = ($valorProjeto < $regra['valor_min']);
+    //                         break;
+    //                     case 'BETWEEN':
+    //                         $passou = ($valorProjeto >= $regra['valor_min'] && $valorProjeto <= $regra['valor_max']);
+    //                         break;
+    //                     case 'CONTEM':
+    //                         $passou = (strpos((string)$valorProjeto, (string)$regra['valor_min']) !== false);
+    //                         break;
+    //                 }
+    //             }
+    //         }
+
+    //         // Se a regra passou, guarda o ID do Kit
+    //         if ($passou) {
+    //             $kitsSelecionadosIds[$categoria] = $regra['kit_id'];
+    //         }
+    //     }
+
+    //     // =========================================================================
+    //     // PASSO 2: EXPANDIR E AGRUPAR ITENS
+    //     // =========================================================================
+
+    //     $listaBruta = [];
+
+    //     // Busca os itens de cada Kit selecionado
+    //     foreach ($kitsSelecionadosIds as $kitId) {
+    //         $itensDoKit = $kitModel->buscarItensProcessados($kitId, $p);
+    //         $listaBruta = array_merge($listaBruta, $itensDoKit);
+    //     }
+
+    //     // Adiciona itens manuais das medições (se houver)
+    //     // if (isset($p['medicoes']) && is_array($p['medicoes'])) {
+    //     //     foreach ($p['medicoes'] as $m) {
+    //     //         if (!empty($m['disjuntor'])) {
+    //     //             $listaBruta[] = ['descricao' => "Disjuntor Termomagnético DIN " . $m['disjuntor'], 'qtd' => 1, 'unidade' => 'teste'];
+    //     //         }
+    //     //         if (!empty($m['cabo'])) {
+    //     //             // Aqui assumi 10m se não tiver distância, ajuste conforme sua lógica
+    //     //             $listaBruta[] = ['descricao' => "Cabo Ramal Interno " . $m['cabo'], 'qtd' => $m['distancia'] ?? 10, 'unidade' => 'teste'];
+    //     //         }
+    //     //         if (!empty($m['eletroduto'])) {
+    //     //             $listaBruta[] = ['descricao' => "Eletroduto Ramal Interno " . $m['eletroduto'], 'qtd' => $m['distancia'] ?? 10, 'unidade' => 'teste'];
+    //     //         }
+    //     //     }
+    //     // }
+
+    //     // LÓGICA DE AGRUPAMENTO (SOMAR QUANTIDADES DE ITENS IGUAIS)
+    //     $listaConsolidada = [];
+    //     foreach ($listaBruta as $item) {
+    //         $chave = trim($item['descricao']); // A chave é a descrição (ex: "Conector")
+
+    //         if (isset($listaConsolidada[$chave])) {
+    //             // Se já existe, soma a quantidade
+    //             $listaConsolidada[$chave]['qtd'] += $item['qtd'];
+    //         } else {
+    //             // Se não existe, cria
+    //             $listaConsolidada[$chave] = $item;
+    //         }
+    //     }
+
+    //     // Converte de volta para array numérico
+    //     $listaFinal = array_values($listaConsolidada);
+
+    //     // =========================================================================
+    //     // PASSO 3: ORDENAÇÃO (A-Z)
+    //     // =========================================================================
+
+    //     usort($listaFinal, function ($a, $b) {
+    //         return strcasecmp($a['descricao'], $b['descricao']);
+    //     });
+
+    //     // =========================================================================
+    //     // PASSO 4: RETORNO PARA VIEW
+    //     // =========================================================================
+
+    //     $cabecalho = [
+    //         'obra'     => $p['titulo_obra'] ?? '',
+    //         'cliente'  => $p['cliente_nome'] ?? '',
+    //         'endereco' => ($p['logradouro'] ?? '') . ', ' . ($p['numero'] ?? '')
+    //     ];
+
+    //     // ATENÇÃO: Verifique se sua View espera a variável 'materiais'
+    //     return view('lista_materiais', [
+    //         'cabecalho' => $cabecalho,
+    //         'materiais' => $listaFinal,
+    //         'medicoes'  => [] // Deixei vazio pois já juntei tudo na lista principal acima
+    //     ]);
+    // }
 }

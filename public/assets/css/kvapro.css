@@ -82,18 +82,30 @@ body {
 
 .logo-area {
     width: 100%;
-    height: 100px;
-    /* AUMENTADO DE 40px PARA 100px */
-    border: 2px dashed rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
+    height: 150px;
+    /* Mantém a altura grande que você pediu */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.85rem;
-    color: #8892b0;
-    box-shadow: 0 0 0 2px var(--navy-dark), 0 0 0 3px var(--white);
-    text-align: center;
-    padding: 10px;
+
+    /* Removemos a borda tracejada e sombra do placeholder antigo */
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    /* Remove padding para a imagem aproveitar o espaço */
+}
+
+/* Nova regra para controlar o tamanho da imagem */
+.logo-area img {
+    max-height: 100%;
+    /* A imagem nunca será maior que 100px de altura */
+    max-width: 100%;
+    /* A imagem nunca vazará para os lados */
+    object-fit: contain;
+    /* Garante que a imagem não fique esticada/deformada */
+
+    /* Opcional: Se quiser manter aquele efeito de brilho/sombra na própria imagem */
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
 }
 
 /* --------------------------- */
@@ -382,4 +394,91 @@ body {
     .partners-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* --- GRID DE ACESSO RÁPIDO MOBILE --- */
+.mobile-quick-access {
+    display: none;
+    grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+    gap: 3px;
+    margin-bottom: 20px;
+}
+
+/* Estilo de cada botão do grid */
+.mobile-grid-item {
+    background-color: #fff;
+    color: var(--navy-dark);
+    text-decoration: none;
+    height: 45px;
+    padding: 15px 5px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    /* Ícone em cima do texto */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: 0.2s;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.mobile-grid-item:active {
+    transform: scale(0.95);
+    background-color: var(--navy-light);
+    color: var(--white);
+}
+
+/* Ajuste dos ícones dentro do grid */
+.mobile-grid-item i {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    margin-right: 0 !important;
+    /* Remove a margem lateral original do sidebar */
+    color: var(--navy-light);
+}
+
+.mobile-grid-item:active i {
+    color: var(--navy-accent);
+}
+
+/* Ajuste do texto */
+.mobile-grid-item span {
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.1;
+    display: block !important;
+    /* Força aparecer mesmo se tiver classe hide */
+}
+
+/* Regra para mostrar apenas no Mobile */
+@media (max-width: 768px) {
+    .mobile-quick-access {
+        display: grid;
+    }
+}
+
+/* Estilo para o item ATIVO no Grid Mobile */
+.mobile-grid-item.active {
+    background-color: var(--navy-dark);
+    /* Fundo escuro igual ao menu */
+    color: var(--navy-accent);
+    /* Texto na cor de destaque */
+    border: 1px solid var(--navy-accent);
+    /* Borda brilhante */
+    transform: translateY(-2px);
+    /* Leve destaque visual */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-grid-item.active i {
+    color: var(--navy-accent);
+    /* Garante que o ícone fique na cor certa */
+}
+
+/* Opcional: remover hover/active padrão se já estiver ativo */
+.mobile-grid-item.active:active {
+    transform: translateY(-2px);
+    /* Mantém posição */
+    background-color: var(--navy-dark);
 }

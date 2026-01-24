@@ -1,0 +1,103 @@
+/* ARQUIVO: modal-mensagens.css */
+
+/* --- MODAL DE ERRO --- */
+/* --- Dark Mode / System Alert --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.modal-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-box {
+    background: var(--navy-dark);
+    /* Fundo Azul Marinho */
+    border: 1px solid var(--navy-light);
+    color: var(--white);
+    width: 90%;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    position: relative;
+    transform: scale(0.95);
+    transition: transform 0.2s;
+}
+
+.modal-overlay.active .modal-box {
+    transform: scale(1);
+}
+
+.modal-title {
+    font-size: 2rem;
+    margin: 20px;
+    font-weight: 400;
+}
+
+.modal-message {
+    color: #a8b2d1;
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    min-height: 50px;
+}
+
+.btn-close-modal {
+    border: none;
+    padding: 10px 30px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 100%;
+    margin-top: 20px;
+}
+
+
+/* SUCESSO (Verde) */
+.btn-close-modal-success {
+    background: #2ecc71;
+    /* Verde Esmeralda */
+    color: var(--navy-dark);
+}
+
+.btn-close-modal-success:hover {
+    background: #27ae60;
+    box-shadow: 0 0 15px rgba(46, 204, 113, 0.4);
+}
+
+/* ALERTA (Amarelo) */
+.btn-close-modal-warning {
+    background: #f1c40f;
+    /* Amarelo Vibrante */
+    color: #333;
+    /* Texto escuro para contraste */
+}
+
+.btn-close-modal-warning:hover {
+    background: #f39c12;
+    box-shadow: 0 0 15px rgba(241, 196, 15, 0.4);
+}
+
+/* ERRO (Manter o padrão ou forçar vermelho se necessário) */
+.btn-close-modal-error {
+    background: #ff6b6b;
+}
+
+.btn-close-modal-error:hover {
+    background: #ff5252;
+    box-shadow: 0 0 15px rgba(255, 82, 82, 0.4);
+}

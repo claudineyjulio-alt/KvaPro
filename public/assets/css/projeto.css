@@ -1,0 +1,193 @@
+/* --- ESTILOS DO FORMULÁRIO DE PROJETO --- */
+
+/* Cards das Etapas */
+.form-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+    border: 1px solid var(--border-color, #e0e0e0);
+    overflow: hidden;
+}
+
+.form-card-header {
+    background-color: #f8f9fa;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.step-number {
+    background-color: var(--navy-dark);
+    color: #fff;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.step-title {
+    font-weight: 600;
+    color: var(--text-dark, #333);
+    font-size: 1rem;
+}
+
+.form-card-body {
+    padding: 25px;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    background-color: #fff;
+    transition: border-color 0.2s;
+}
+
+.form-control:focus {
+    border-color: var(--navy-accent);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.1);
+}
+
+.section-subtitle {
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #999;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+    margin: 20px 0 15px 0;
+    letter-spacing: 0.5px;
+}
+
+/* Área de Adicionar Medições (Fundo Azulado) */
+.add-panel {
+    background-color: rgba(23, 42, 69, 0.03); /* Leve toque do Navy */
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.btn-add {
+    background-color: var(--navy-dark);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    width: 100%;
+    height: 38px; /* Altura do input padrão */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+.btn-add:hover { background-color: var(--navy-light); }
+
+
+
+/* Inicio da Lista de Unidades */
+
+/* --- ESTILO DA LINHA DE MEDIÇÃO (Igual ao Form Card) --- */
+
+.unidade-row {
+    position: relative; /* Para segurar o botão de excluir */
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-left: 5px solid var(--navy-accent); /* O detalhe visual */
+    border-radius: 8px;
+    padding: 25px; /* Mesmo padding do form-card-body */
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Botão de excluir no canto superior direito */
+.btn-remove-row {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: transparent;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 1rem;
+    z-index: 10;
+    transition: color 0.2s;
+}
+
+.btn-remove-row:hover {
+    color: #e74c3c;
+}
+
+/* RESPONSIVIDADE: 
+   Garante que o grid quebre linha no mobile, 
+   exatamente como acontece nos Dados Gerais.
+*/
+@media (max-width: 768px) {
+    .unidade-row .form-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .unidade-row .col-1, .unidade-row .col-2, .unidade-row .col-3, 
+    .unidade-row .col-4, .unidade-row .col-5, .unidade-row .col-6, 
+    .unidade-row .col-12 {
+        grid-column: span 12;
+        width: 100%;
+    }
+}
+/* Fim Lista de Unidades */
+
+
+/* Botões de Ação */
+.page-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.btn-action {
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+    border: none;
+}
+.btn-primary { background: var(--navy-accent); color: var(--navy-dark); font-weight: bold; }
+.btn-success { background: #27ae60; color: white; }
+.btn-outline { border: 1px solid #ccc; color: #555; background: white; }
+
+/* Modal Importação */
+.custom-modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); z-index: 2000;
+    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(4px);
+}
+.custom-modal.hidden { display: none; }
+.custom-modal-content {
+    background: white; padding: 30px; border-radius: 10px; width: 400px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}

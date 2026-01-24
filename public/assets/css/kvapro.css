@@ -482,3 +482,92 @@ body {
     /* Mantém posição */
     background-color: var(--navy-dark);
 }
+
+
+
+
+
+/* --- SISTEMA DE GRID (12 COLUNAS) --- */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 15px;
+    /* Espaçamento padrão */
+}
+
+/* Definição de todas as colunas para evitar quebras */
+.col-1 {
+    grid-column: span 1;
+}
+
+.col-2 {
+    grid-column: span 2;
+}
+
+.col-3 {
+    grid-column: span 3;
+}
+
+.col-4 {
+    grid-column: span 4;
+}
+
+.col-5 {
+    grid-column: span 5;
+}
+
+/* A que faltava! */
+.col-6 {
+    grid-column: span 6;
+}
+
+.col-7 {
+    grid-column: span 7;
+}
+
+.col-8 {
+    grid-column: span 8;
+}
+
+.col-9 {
+    grid-column: span 9;
+}
+
+.col-10 {
+    grid-column: span 10;
+}
+
+.col-11 {
+    grid-column: span 11;
+}
+
+.col-12 {
+    grid-column: span 12;
+}
+
+/* Responsividade: No mobile, tudo vira 100% (span 12) */
+@media (max-width: 992px) {
+
+    .col-1,
+    .col-2,
+    .col-3,
+    .col-4,
+    .col-5,
+    .col-6,
+    .col-7,
+    .col-8,
+    .col-9,
+    .col-10,
+    .col-11,
+    .col-12 {
+        grid-column: span 12;
+        width: 100%;
+    }
+
+    /* Garante que o grid vire flex vertical no mobile para evitar overflow */
+    .form-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+}

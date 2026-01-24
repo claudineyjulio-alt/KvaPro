@@ -28,7 +28,7 @@ class Projeto extends BaseController
             $data['projeto_recuperado'] = $recuperacao;
         }
 
-        return view('projeto_novo', $data); // Ou o nome da sua view de formulário
+        return view('projeto/projeto_novo', $data); // Ou o nome da sua view de formulário
     }
 
 // public function novo()

@@ -56,7 +56,12 @@ class Projeto extends BaseController
         // 2. Decodifica o JSON de volta para Array
         $projeto = json_decode($jsonPayload, true);
 
+        if (empty($projeto['unidades'])) {
+            return "Erro: Nenhuma unidade recebida. Acesse através da tela de processamento.";
+        }
+
         // printf("<pre>%s</pre>", print_r($jsonPayload, true));   
+        // return;
         //  print_r($jsonPayload, true);
         // exit;
 
@@ -71,8 +76,9 @@ class Projeto extends BaseController
             return "Erro: Nenhum dado de projeto recebido. Acesse através da tela de processamento.";
         }
         $projeto = json_decode($jsonPayload, true);
-        // printf(print_r($projeto));
-        // return;
+        if (empty($projeto['unidades'])) {
+            return "Erro: Nenhuma unidade recebida. Acesse através da tela de processamento.";
+        }
         return view('projeto/layout', $projeto);
     }
 
@@ -96,68 +102,6 @@ class Projeto extends BaseController
 
         return view('projeto/teste', $projeto);
     }
-
-
-    // public function diagrama()
-    // {
-    //     // 1. Recebe o JSON enviado pelo formulário (input hidden)
-    //     $jsonPayload = $this->request->getPost('payload_projeto');
-
-    //     // Se tentar acessar direto pela URL sem dados, redireciona ou mostra erro
-    //     if (!$jsonPayload) {
-    //         return "Erro: Nenhum dado de projeto recebido. Acesse através da tela de processamento.";
-    //     }
-
-    //     // 2. Decodifica o JSON de volta para Array
-    //     $projeto = json_decode($jsonPayload, true);
-
-    //     // 3. Mapeia os dados do JSON para o formato que a View 'diagrama_unifilar' espera.
-    //     // NOTA: Ajuste as chaves ($projeto['chave']) conforme o array que você gera no seu processamento.
-
-    //     $entrada = [
-    //         // Tenta pegar com nomes comuns, ou usa um padrão se não achar
-    //         'cabo'       => $projeto['entrada_cabo']       ?? $projeto['cabo_entrada']       ?? '3#35(35)mm²',
-    //         'disjuntor'  => $projeto['entrada_disjuntor']  ?? $projeto['disjuntor_geral']    ?? '100A',
-    //         'eletroduto' => $projeto['entrada_eletroduto'] ?? $projeto['eletroduto_entrada'] ?? 'Ø 2"',
-    //         'fases'      => $projeto['numero_fases']       ?? 3,
-
-    //         // Dados opcionais (DPS/Terra) - Se não existirem no array, ficam null
-    //         'cabo_dps'         => $projeto['dps_cabo']      ?? null,
-    //         'tensao_dps'       => $projeto['dps_tensao']    ?? null,
-    //         'ka_dps'           => $projeto['dps_ka']        ?? null,
-    //         'cabo_terra'       => $projeto['terra_cabo']    ?? null,
-    //         'eletroduto_terra' => $projeto['terra_tubo']    ?? null,
-    //         'hastes'           => $projeto['terra_hastes']  ?? null,
-    //     ];
-
-    //     // 4. Prepara as medições (Unidades)
-    //     $medicoes = [];
-    //     if (isset($projeto['medicoes']) && is_array($projeto['medicoes'])) {
-    //         foreach ($projeto['medicoes'] as $m) {
-    //             $medicoes[] = [
-    //                 // CORREÇÃO AQUI: Tenta pegar 'placa' (do formulário novo) ou 'nome' (legado)
-    //                 'nome'       => $m['placa'] ?? $m['nome'] ?? 'Sem Nome',
-
-    //                 // CORREÇÃO AQUI: Tenta pegar 'numero_uc' (do formulário novo) ou 'uc' (legado)
-    //                 'uc_id'      => $m['numero_uc'] ?? $m['uc'] ?? '',
-
-    //                 'cabo'       => $m['cabo'] ?? '',
-    //                 'disj'       => $m['disjuntor'] ?? '',
-    //                 'fases_especificas' => $m['fases_especificas'] ?? '', // Garante que vai para a view
-    //                 'fases'             => $m['fases'] ?? 1,
-    //                 'eletroduto' => $m['eletroduto'] ?? ''
-    //             ];
-    //         }
-    //     }
-
-    //     // 5. Carrega a view do diagrama com os dados mapeados
-    //     return view('diagrama_unifilar', [
-    //         'medicoes' => $medicoes,
-    //         'entrada'  => $entrada
-    //     ]);
-    // }
-
-
 
     /**
      * API para retornar os dados de dimensionamento baseado na concessionária e tensão
@@ -185,6 +129,10 @@ class Projeto extends BaseController
         if (!$jsonPayload) return "Erro: Payload vazio.";
 
         $p = json_decode($jsonPayload, true);
+
+        if (empty($p['unidades'])) {
+            return "Erro: Nenhuma unidade recebida. Acesse através da tela de processamento.";
+        }
 
         $regraMatModel  = new \App\Models\RegraMaterialModel();
         $definicaoModel = new \App\Models\DefinicaoRegraMatModel();

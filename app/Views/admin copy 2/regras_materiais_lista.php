@@ -14,7 +14,7 @@
         </a>
     </div>
 
-    <?php if (session()->getFlashdata('sucesso')): ?>
+    <?php if(session()->getFlashdata('sucesso')): ?>
         <div style="background-color: #e9f7ef; color: #27ae60; padding: 15px; margin-bottom: 20px; border-radius: 6px; border: 1px solid #c3e6cb; font-weight: 500;">
             <i class="fas fa-check-circle"></i> <?= session()->getFlashdata('sucesso') ?>
         </div>
@@ -24,8 +24,8 @@
         <div class="form-card-header">
             <h2 class="step-title"><i class="fas fa-brain" style="color: var(--navy-accent); margin-right: 8px;"></i> MOTOR DE REGRAS (MATERIAIS)</h2>
         </div>
-
-        <div class="form-card-body" style="padding: 0;">
+        
+        <div class="form-card-body" style="padding: 0;"> 
             <div class="table-responsive">
                 <table class="kv-table">
                     <thead>
@@ -38,14 +38,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (!empty($regras)): ?>
-                            <?php foreach ($regras as $r): ?>
+                        <?php if(!empty($regras)): ?>
+                            <?php foreach($regras as $r): ?>
                                 <tr>
                                     <td>
-                                        <?php
-                                        $badgeClass = 'badge-blue'; // Padrão
-                                        if ($r['prioridade'] == 1) $badgeClass = 'badge-red'; // Alta
-                                        elseif ($r['prioridade'] == 99) $badgeClass = 'badge-gray'; // Baixa
+                                        <?php 
+                                            $badgeClass = 'badge-blue'; // Padrão
+                                            if ($r['prioridade'] == 1) $badgeClass = 'badge-red'; // Alta
+                                            elseif ($r['prioridade'] == 99) $badgeClass = 'badge-gray'; // Baixa
                                         ?>
                                         <span class="badge <?= $badgeClass ?>">
                                             <?= $r['prioridade'] ?>
@@ -57,39 +57,24 @@
                                     </td>
 
                                     <td>
-                                        <div style="font-weight: bold; color: var(--navy-dark); margin-bottom: 6px; font-size: 0.95rem;">
-                                            <?= $r['nome'] ?? 'Regra Sem Nome' ?>
-                                        </div>
-                                        <div style="font-size: 0.8rem; color: #7f8c8d; margin-bottom: 8px;">
+                                        <div style="font-weight: bold; color: var(--navy-dark); margin-bottom: 4px;">
                                             <?= $r['descricao'] ?>
                                         </div>
-
-                                        <?php if (!empty($r['condicoes'])): ?>
-                                            <div style="display: flex; flex-direction: column; gap: 4px;">
-                                                <?php foreach ($r['condicoes'] as $idx => $cond): ?>
-                                                    <code style="background: #f8f9fa; padding: 4px 8px; border-radius: 4px; color: #2980b9; font-size: 0.85rem; border: 1px solid #e1e8ed; display: inline-block;">
-                                                        <span style="font-weight:bold; color: <?= $idx == 0 ? '#007bff' : '#28a745' ?>;">
-                                                            <?= $idx == 0 ? 'SE' : 'E' ?>
-                                                        </span>
-                                                        [<?= $cond['variavel'] ?>] <?= $cond['condicao'] ?> <?= $cond['valor_min'] ?> <?= $cond['valor_max'] ? ' até ' . $cond['valor_max'] : '' ?>
-                                                    </code>
-                                                <?php endforeach; ?>
-                                            </div>
-                                        <?php else: ?>
-                                            <span class="badge badge-gray">Nenhuma condição definida</span>
-                                        <?php endif; ?>
+                                        <code style="background: #f8f9fa; padding: 3px 6px; border-radius: 4px; color: #2980b9; font-size: 0.85rem; border: 1px solid #e1e8ed;">
+                                            Se [<?= $r['variavel'] ?>] <?= $r['condicao'] ?> <?= $r['valor_min'] ?> <?= $r['valor_max'] ? 'e '.$r['valor_max'] : '' ?>
+                                        </code>
                                     </td>
 
                                     <td style="color: #27ae60; font-weight: 600;">
                                         <i class="fas fa-box-open" style="margin-right: 5px;"></i>
-                                        <?= $kitsMap[$r['kit_id']] ?? 'Kit ID: ' . $r['kit_id'] ?>
+                                        <?= $kitsMap[$r['kit_id']] ?? 'Kit ID: '.$r['kit_id'] ?>
                                     </td>
 
                                     <td style="text-align: center;">
-                                        <a href="<?= base_url('admin/regras-materiais/editar/' . $r['id']) ?>" style="color: #3498db; margin-right: 15px; font-size: 1.1rem;" title="Editar Regra">
+                                        <a href="<?= base_url('admin/regras-materiais/editar/'.$r['id']) ?>" style="color: #3498db; margin-right: 15px; font-size: 1.1rem;" title="Editar Regra">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="<?= base_url('admin/regras-materiais/excluir/' . $r['id']) ?>" onclick="return confirm('Tem certeza que deseja excluir esta regra?')" style="color: #e74c3c; font-size: 1.1rem;" title="Excluir Regra">
+                                        <a href="<?= base_url('admin/regras-materiais/excluir/'.$r['id']) ?>" onclick="return confirm('Tem certeza que deseja excluir esta regra?')" style="color: #e74c3c; font-size: 1.1rem;" title="Excluir Regra">
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                     </td>

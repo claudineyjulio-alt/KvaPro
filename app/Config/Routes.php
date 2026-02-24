@@ -20,12 +20,15 @@ $routes->get('perfil', 'Login::perfil'); // Rota para edição (Usa a mesma lóg
 $routes->match(['get', 'post'], 'projeto/novo', 'Projeto::novo');
 // Mudança aqui: O form agora vai para 'detalhar'
 $routes->post('projeto/detalhar', 'Projeto::detalhar');
+$routes->post('projeto/layout', 'Projeto::layout');
 // Nova rota para o passo final
 $routes->post('projeto/salvar', 'Projeto::salvar');
 $routes->get('projeto/api/dimensionamento', 'Projeto::api_dimensionamento');
 // rota para aceitar POST
 $routes->match(['get', 'post'], 'projeto/diagrama', 'Projeto::diagrama');
 $routes->post('projeto/lista-materiais', 'Projeto::listaMateriais');
+
+$routes->get('projeto/teste', 'Projeto::teste');
 
 // ==================================================
 // 2. ROTAS PRIVADAS (Protegidas pelo Filtro 'auth')

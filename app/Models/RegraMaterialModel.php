@@ -12,19 +12,20 @@ class RegraMaterialModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
+
+    // ATUALIZADO: Removemos os campos de condição (variavel, valor_min, etc) 
+    // e adicionamos o campo 'nome'
     protected $allowedFields    = [
-        'concessionaria_id', 
-        'tipo_kit', 
-        'prioridade', 
-        'descricao', 
-        'variavel', 
-        'condicao', 
-        'valor_min', 
-        'valor_max', 
-        'kit_id', 
+        'concessionaria_id',
+        'nome',
+        'tipo_kit',
+        'prioridade',
+        'descricao',
+        'kit_id',
         'observacao'
     ];
 
-    // Dates
+    // Dates (Se você adicionou created_at e updated_at no banco, 
+    // mude para true. Caso contrário, mantenha false)
     protected $useTimestamps = false;
 }

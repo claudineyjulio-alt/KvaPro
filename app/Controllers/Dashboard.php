@@ -15,7 +15,7 @@ class Dashboard extends BaseController
                 ['nome' => 'Automação Esteira 02', 'data' => '25/12/2025', 'status' => 'Revisão'],
             ]
         ];
-
+        // print_r(session()->get('nome'));
         return view('dashboard/home', $data);
     }
 }

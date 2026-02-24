@@ -16,7 +16,7 @@
             <i class="fas fa-arrow-left"></i> Voltar
         </a>
         <button type="button" onclick="abrirModalImportacao()" class="btn-action btn-outline" style="border-color: var(--navy-accent); color: var(--navy-dark);">
-            <i class="fas fa-file-import"></i> Importar .kva
+            <i class="fas fa-file-import"></i> Importar Projeto .kva
         </button>
     </div>
 
@@ -26,16 +26,16 @@
         <div class="form-card">
             <div class="form-card-header">
                 <span class="step-number">1</span>
-                <h2 class="step-title">Identificação do Projeto</h2>
+                <h2 class="step-title">IDENTIFICAÇÃO</h2>
             </div>
             <div class="form-card-body">
                 <div class="form-grid">
-                    <div class="col-6">
-                        <label class="form-label">Título da Obra *</label>
+                    <div class="col-4">
+                        <label class="form-label">Título da Obra</label>
                         <input type="text" name="titulo_obra" id="titulo_obra" required class="form-control">
                     </div>
-                    <div class="col-3">
-                        <label class="form-label">Nome do Cliente *</label>
+                    <div class="col-5">
+                        <label class="form-label">Nome do Cliente</label>
                         <input type="text" name="cliente_nome" id="cliente_nome" required class="form-control">
                     </div>
                     <div class="col-3">
@@ -52,13 +52,13 @@
                         <div class="section-subtitle">Localização</div>
                     </div>
 
-                    <div class="col-2"><label class="form-label">CEP</label><input type="text" id="cep" name="cep" maxlength="9" class="form-control"></div>
-                    <div class="col-4"><label class="form-label">Logradouro</label><input type="text" id="logradouro" name="logradouro" class="form-control"></div>
-                    <div class="col-1"><label class="form-label">Nº</label><input type="text" id="numero" name="numero" class="form-control"></div>
-                    <div class="col-2"><label class="form-label">Bairro</label><input type="text" id="bairro" name="bairro" class="form-control"></div>
-                    <div class="col-2"><label class="form-label">Cidade</label><input type="text" id="cidade" name="cidade" class="form-control"></div>
+                    <div class="col-3"><label class="form-label">CEP</label><input type="text" id="cep" name="cep" maxlength="9" class="form-control"></div>
+                    <div class="col-6"><label class="form-label">Logradouro</label><input type="text" id="logradouro" name="logradouro" class="form-control"></div>
+                    <div class="col-3"><label class="form-label">Nº</label><input type="text" id="numero" name="numero" class="form-control"></div>
+                    <div class="col-4"><label class="form-label">Bairro</label><input type="text" id="bairro" name="bairro" class="form-control"></div>
+                    <div class="col-4"><label class="form-label">Cidade</label><input type="text" id="cidade" name="cidade" class="form-control"></div>
                     <div class="col-1"><label class="form-label">UF</label><input type="text" id="uf" name="uf" class="form-control" style="text-transform: uppercase;"></div>
-                    <div class="col-2"><label class="form-label">Zona</label>
+                    <div class="col-3"><label class="form-label">Zona</label>
                         <select name="zona" id="zona" class="form-control">
                             <option value="Urbano">Urbana</option>
                             <option value="Rural">Rural</option>
@@ -71,7 +71,7 @@
         <div class="form-card">
             <div class="form-card-header">
                 <span class="step-number">2</span>
-                <h2 class="step-title">Parâmetros da Concessionária</h2>
+                <h2 class="step-title">DADOS GERAIS</h2>
             </div>
             <div class="form-card-body">
                 <div class="form-grid">
@@ -113,91 +113,17 @@
             </div>
         </div>
 
+
         <div class="form-card">
             <div class="form-card-header">
                 <span class="step-number">3</span>
-                <h2 class="step-title">Dados Gerais e Proteção</h2>
-            </div>
-            <div class="form-card-body">
-                <div class="form-grid">
-                    <div class="col-12">
-                        <div class="section-subtitle">Padrão de Entrada</div>
-                    </div>
-
-                    <div class="col-3">
-                        <label class="form-label">Cabo de Entrada *</label>
-                        <input type="text" name="entrada_cabo" id="entrada_cabo" placeholder="Ex: 3#35(35)mm²" required class="form-control">
-                    </div>
-                    <div class="col-2">
-                        <label class="form-label">Eletroduto *</label>
-                        <input type="text" name="entrada_eletroduto" id="entrada_eletroduto" placeholder='Ex: Ø 2"' required class="form-control">
-                    </div>
-                    <div class="col-2">
-                        <label class="form-label">Disjuntor Geral *</label>
-                        <input type="text" name="entrada_disjuntor" id="entrada_disjuntor" placeholder="Ex: 100A" required class="form-control">
-                    </div>
-                    <div class="col-2">
-                        <label class="form-label">Fases (Geral) *</label>
-                        <select name="numero_fases" id="numero_fases" class="form-control">
-                            <option value="3">Trifásico (3)</option>
-                            <option value="2">Bifásico (2)</option>
-                            <option value="1">Monofásico (1)</option>
-                        </select>
-                    </div>
-
-                    <div class="col-3" id="div_travessia" style="display: none;">
-                        <label class="form-label">Tipo de Travessia</label>
-                        <select name="travessia" id="travessia" class="form-control">
-                            <option value="passeio">Passeio (Calçada)</option>
-                            <option value="rua">Rua</option>
-                            <option value="avenida">Avenida / Rodovia</option>
-                        </select>
-                    </div>
-
-                    <div class="col-12">
-                        <div class="section-subtitle">Proteção (DPS)</div>
-                    </div>
-                    <div class="col-4">
-                        <label class="form-label">Tensão DPS</label>
-                        <input type="text" name="dps_tensao" id="dps_tensao" value="275V" class="form-control">
-                    </div>
-                    <div class="col-4">
-                        <label class="form-label">Capacidade (kA)</label>
-                        <input type="text" name="dps_ka" id="dps_ka" value="20kA" class="form-control">
-                    </div>
-                    <div class="col-4">
-                        <label class="form-label">Cabo DPS</label>
-                        <input type="text" name="dps_cabo" id="dps_cabo" value="#10mm²" class="form-control">
-                    </div>
-
-                    <div class="col-12">
-                        <div class="section-subtitle">Aterramento</div>
-                    </div>
-                    <div class="col-4">
-                        <label class="form-label">Cabo Terra</label>
-                        <input type="text" name="terra_cabo" id="terra_cabo" value="Cobre Nú #35mm²" class="form-control">
-                    </div>
-                    <div class="col-4">
-                        <label class="form-label">Eletroduto Terra</label>
-                        <input type="text" name="terra_tubo" id="terra_tubo" value='Ø 3/4"' class="form-control">
-                    </div>
-                    <div class="col-4">
-                        <label class="form-label">Hastes</label>
-                        <input type="text" name="terra_hastes" id="terra_hastes" value="3 Hastes Alta Camada" class="form-control">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-card">
-            <div class="form-card-header">
-                <span class="step-number">4</span>
-                <h2 class="step-title">Adicionar Medições</h2>
+                <h2 class="step-title">MEDIÇÕES</h2>
             </div>
 
             <div class="add-panel">
+                <h3 class="section-subtitle">Adicionar unidades</h3>
                 <div class="form-grid">
-                    <div class="col-2">
+                    <div class="col-4">
                         <label class="form-label">Classe</label>
                         <select id="add_classe" class="form-control">
                             <option value="Residencial">Residencial</option>
@@ -207,21 +133,52 @@
                             <option value="Condominio">Condomínio</option>
                         </select>
                     </div>
-                    <div class="col-2">
-                        <label class="form-label">Nº de fases</label>
-                        <select id="add_categoria" class="form-control" onchange="filtrarDisjuntoresLocal()">
+                    <div class="col-4">
+                        <label class="form-label">Tipo</label>
+                        <select id="add_categoria" class="form-control" onchange="filtrarDisjuntoresLocalPainel()">
                             <option value="M">Monofásica</option>
                             <option value="B">Bifásica</option>
                             <option value="T">Trifásica</option>
                             <option value="Calcular">A Calcular</option>
                         </select>
                     </div>
-                    <div class="col-5">
-                        <label class="form-label">Padrão / Disjuntor</label>
-                        <select id="add_disjuntor" class="form-control">
-                            <option value="">Aguardando seleção...</option>
+                    <div class="col-4">
+                        <label class="form-label">Disjuntor</label>
+                        <select id="add_disjuntor" class="form-control" onchange="preencherDadosCabosPainel()">
+                            <option value="">Informe os dados da concessionária</option>
                         </select>
                     </div>
+
+                    <div class="col-3">
+                        <label class="form-label">Cabos por fase</label>
+                        <input type="text" id="qtd_fase_add" value="1" required class="form-control">
+                    </div>
+                    <div class="col-3">
+                        <label class="form-label">Seção fase (mm²)</label>
+                        <input type="text" id="fase_add" placeholder="Ex: 16" required class="form-control">
+                    </div>
+                    <div class="col-3">
+                        <label class="form-label">Seção neutro (mm²)</label>
+                        <input type="text" id="neutro_add" placeholder="Ex: 16" required class="form-control">
+                    </div>
+                    <div class="col-3">
+                        <label class="form-label">Eletroduto (Ø")</label>
+                        <input type="text" id="eletroduto_add" placeholder='Ex: 2' required class="form-control">
+                    </div>
+
+                    <div class="col-3">
+                        <label class="form-label">Prefixo</label>
+                        <input type="text" id="prefixo_add" value='AP - ' oninput="this.value = this.value.toUpperCase();" required class="form-control">
+                    </div>
+                    <div class="col-3">
+                        <label class="form-label">Numero inicial</label>
+                        <input type="text" id="numero_inicial_add" value='101' required class="form-control">
+                    </div>
+                    <div class="col-3">
+                        <label class="form-label">Incremento</label>
+                        <input type="text" id="incremento_add" value='1' required class="form-control">
+                    </div>
+
                     <div class="col-3">
                         <label class="form-label">Quantidade</label>
                         <div style="display: flex; gap: 5px;">
@@ -236,6 +193,7 @@
 
             <div class="form-card-body">
                 <h3 class="section-subtitle">Unidades Adicionadas</h3>
+                <input type="hidden" name="total_medidores" id="input_total_medidores" value="1">
                 <div id="lista-unidades">
                     <div id="empty-state" style="text-align: center; padding: 30px; color: #999; border: 2px dashed #eee; border-radius: 6px;">
                         Nenhuma medição adicionada ainda.
@@ -244,97 +202,281 @@
             </div>
         </div>
 
-        <div style="text-align: right; margin-top: 20px; margin-bottom: 50px;">
-            <button type="submit" class="btn-action btn-success" style="padding: 15px 30px; font-size: 1rem;">
-                <i class="fas fa-check-circle"></i> Finalizar e Gerar Projeto
-            </button>
+
+        <div class="form-card">
+            <div class="form-card-header">
+                <span class="step-number">4</span>
+                <h2 class="step-title">ALIMENTADOR GERAL</h2>
+            </div>
+            <div class="form-card-body">
+                <div class="form-grid">
+                    <!-- <div class="col-12">
+                        <div class="section-subtitle">Dados da Entrada</div>
+                    </div> -->
+
+                    <div class="col-2">
+                        <label class="form-label">Cabos por fase</label>
+                        <input type="text" name="qtd_fase" id="qtd_fase" value="1" required class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <label class="form-label">Seção fase (mm²)</label>
+                        <input type="text" name="entrada_fase" id="entrada_fase" placeholder="Ex: 16" required class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <label class="form-label">Seção neutro (mm²)</label>
+                        <input type="text" name="entrada_neutro" id="entrada_neutro" placeholder="Ex: 16" required class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <label class="form-label">Eletroduto (Ø")</label>
+                        <input type="text" name="entrada_eletroduto" id="entrada_eletroduto" placeholder='Ex: 2' required class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <label class="form-label">Tipo (Geral)</label>
+                        <select name="tipo_geral" id="tipo_geral" class="form-control">
+                            <option value="3">Trifásico</option>
+                            <option value="2">Bifásico</option>
+                            <option value="1">Monofásico</option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <label class="form-label">Disjuntor Geral (A)</label>
+                        <input type="text" name="entrada_disjuntor" id="entrada_disjuntor" placeholder="Ex: 100" required class="form-control">
+                    </div>
+                </div>
+            </div>
         </div>
+        <div class="form-card">
+            <div class="form-card-header">
+                <span class="step-number">5</span>
+                <h2 class="step-title">ATERRAMENTO E DPS</h2>
+            </div>
+            <div class="form-card-body">
+                <div class="form-grid">
+
+                    <div class="col-12">
+                        <div class="section-subtitle">Proteção (DPS)</div>
+                    </div>
+                    <div class="col-4">
+                        <label class="form-label">Tensão DPS</label>
+                        <input type="text" name="dps_tensao" id="dps_tensao" value="275" class="form-control">
+                    </div>
+                    <div class="col-4">
+                        <label class="form-label">Capacidade min. (kA)</label>
+                        <input type="text" name="dps_ka" id="dps_ka" value="20" class="form-control">
+                    </div>
+                    <div class="col-4">
+                        <label class="form-label">Cabo DPS (mm²)</label>
+                        <input type="text" name="dps_cabo" id="dps_cabo" value="10" class="form-control">
+                    </div>
+
+                    <div class="col-12">
+                        <div class="section-subtitle">Aterramento</div>
+                    </div>
+                    <div class="col-2">
+                        <label class="form-label">Seção Terra (mm²)</label>
+                        <input type="text" name="terra_cabo" id="terra_cabo" value="16" class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <label class="form-label">Eletroduto Terra (Ø")</label>
+                        <input type="text" name="terra_tubo" id="terra_tubo" value='3/4"' class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <label class="form-label">Nº de Hastes</label>
+                        <select name="terra_hastes" id="terra_hastes" class="form-control">
+                            <option value="1">1</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <label class="form-label">Tipo haste</label>
+                        <select name="terra_tipo_hastes" id="terra_tipo_hastes" class="form-control">
+                            <option value="16x2400mm">16x2400mm</option>
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <label class="form-label">Caixa de inspeção</label>
+                        <select name="terra_cx" id="terra_cx" class="form-control">
+                            <option value="PVC">PVC</option>
+                            <option value="Concreto">Concreto</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div style="text-align: center; margin-top: 20px; margin-bottom: 50px;">
+                <button type="submit" class="btn-action btn-success" style="padding: 15px 30px; font-size: 1rem;">
+                    <i class="fas fa-check-circle"></i> Finalizar e Gerar Projeto
+                </button>
+            </div>
     </form>
 
     <div id="modal-importacao" class="custom-modal hidden">
         <div class="custom-modal-content">
-            <h3 class="modal-title" style="margin-bottom: 15px;">Importar Arquivo .KVA</h3>
+            <h3 class="modal-title" style="margin-bottom: 15px;">Importar Projetos .KVA</h3>
             <input type="file" id="file-upload" accept=".kva,.json" class="form-control" style="margin-bottom: 20px;">
             <div style="text-align: right; display: flex; justify-content: flex-end; gap: 10px;">
                 <button onclick="fecharModalImportacao()" class="btn-action btn-outline">Cancelar</button>
-                <button onclick="processarImportacao()" class="btn-action btn-success">Carregar</button>
+                <button type="button" onclick="processarImportacao()" class="btn-action btn-success">Carregar</button>
             </div>
         </div>
     </div>
 
 
-<template id="tpl-unidade">
-    <div class="unidade-row">
-        <button type="button" onclick="removerLinha(this)" class="btn-remove-row" title="Excluir Medição">
-            <i class="fas fa-trash-alt"></i>
-        </button>
+    <template id="tpl-unidade">
+        <div class="unidade-row">
+            <button type="button" onclick="removerLinha(this)" class="btn-remove-row" title="Excluir Medição">
+                <i class="fas fa-trash-alt"></i>
+            </button>
 
-        <div style="margin-bottom: 15px; font-weight: bold; color: var(--navy-dark); font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 5px;">
-            Dados do <span class="medidor-num">#</span>º Medidor 
+            <div style="margin-bottom: 15px; font-weight: bold; color: var(--navy-dark); font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 5px;">
+                Dados do <span class="medidor-num">#</span>º Medidor
+            </div>
+
+            <div class="form-grid">
+
+                <div class="col-3">
+                    <label class="form-label">Classe</label>
+                    <select name="unidades[INDEX][classe]" class="cls-classe form-control">
+                        <option value="Residencial">Residencial</option>
+                        <option value="Comercial">Comercial</option>
+                        <option value="Industrial">Industrial</option>
+                        <option value="B. Incendio">Bomba Incêndio</option>
+                        <option value="Condominio">Condomínio</option>
+                    </select>
+                </div>
+                <div class="col-2">
+                    <label class="form-label">Nº de fases</label>
+                    <select name="unidades[INDEX][categoria]" class="cls-categoria form-control" onchange="aoMudarCategoriaDaLinha(this)">
+                        <option value="M">Monofásica</option>
+                        <option value="B">Bifásica</option>
+                        <option value="T">Trifásica</option>
+                        <option value="Calcular">A Calcular</option>
+                    </select>
+                </div>
+                <div class="col-5">
+                    <label class="form-label">Categoria</label>
+                    <select name="unidades[INDEX][dimensionamento_id]" class="cls-dim-id form-control" onchange="aoMudarPadraoDaLinha(this)">
+                    </select>
+                </div>
+                <div class="col-2">
+                    <label class="form-label">Fases</label>
+                    <select name="unidades[INDEX][fases_especificas]" class="cls-fases form-control">
+                    </select>
+                </div>
+
+                <div class="col-2">
+                    <label class="form-label">Cabos/fase</label>
+                    <input type="text" name="unidades[INDEX][qtd_fase_add]" class="cls-qtd-fase form-control" placeholder="Qtd">
+                </div>
+                <div class="col-2">
+                    <label class="form-label">Fase (mm²)</label>
+                    <input type="text" name="unidades[INDEX][fase]" class="cls-fase form-control" placeholder="Fase">
+                </div>
+                <div class="col-2">
+                    <label class="form-label">Neutro (mm²)</label>
+                    <input type="text" name="unidades[INDEX][neutro]" class="cls-neutro form-control" placeholder="Neutro">
+                </div>
+                <div class="col-3">
+                    <label class="form-label">Eletroduto</label>
+                    <input type="text" name="unidades[INDEX][eletroduto]" class="cls-eletroduto form-control" placeholder="Diâmetro">
+                </div>
+                <div class="col-3">
+                    <label class="form-label">Disjuntor</label>
+                    <input type="text" name="unidades[INDEX][disjuntor]" class="cls-disjuntor form-control" placeholder="Corrente">
+                </div>
+
+                <div class="col-3">
+                    <label class="form-label">Identificação</label>
+                    <input type="text" name="unidades[INDEX][placa]" class="cls-placa form-control" placeholder="Ex: Casa 1" style="font-weight: bold;">
+                </div>
+                <div class="col-3">
+                    <label class="form-label">Nº UC (Opcional)</label>
+                    <input type="text" name="unidades[INDEX][numero_uc]" class="cls-uc form-control" placeholder="Ex: 112121">
+                </div>
+                <div class="col-6">
+                    <label class="form-label">Observações</label>
+                    <input type="text" name="unidades[INDEX][observacao]" class="cls-obs form-control" placeholder="Detalhes adicionais...">
+                </div>
+            </div>
+
+            <input type="hidden" class="inp-info-tec" name="unidades[INDEX][info_tecnica]">
+            <input type="hidden" name="unidades[INDEX][mbt]" class="cls-mbt" value="1">
         </div>
+    </template>
 
-        <div class="form-grid">
-            
-            <div class="col-3">
-                <label class="form-label">Classe</label>
-                <select name="unidades[INDEX][classe]" class="cls-classe form-control">
-                    <option value="Residencial">Residencial</option>
-                    <option value="Comercial">Comercial</option>
-                    <option value="Industrial">Industrial</option>
-                    <option value="B. Incendio">Bomba Incêndio</option>
-                    <option value="Condominio">Condomínio</option>
-                </select>
-            </div>
-            <div class="col-2">
-                <label class="form-label">Nº de fases</label>
-                <select name="unidades[INDEX][categoria]" class="cls-categoria form-control" onchange="aoMudarCategoriaDaLinha(this)">
-                    <option value="M">Monofásica</option>
-                    <option value="B">Bifásica</option>
-                    <option value="T">Trifásica</option>
-                    <option value="Calcular">A Calcular</option>
-                </select>
-            </div>
-            <div class="col-5">
-                <label class="form-label">Categoria</label>
-                <select name="unidades[INDEX][dimensionamento_id]" class="cls-dim-id form-control" onchange="aoMudarPadraoDaLinha(this)">
-                </select>
-            </div>
-            <div class="col-2">
-                <label class="form-label">Fases</label>
-                <select name="unidades[INDEX][fases_especificas]" class="cls-fases form-control">
-                </select>
+    <!-- <template id="tpl-unidade">
+        <div class="unidade-row">
+            <button type="button" onclick="removerLinha(this)" class="btn-remove-row" title="Excluir Medição">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+
+            <div style="margin-bottom: 15px; font-weight: bold; color: var(--navy-dark); font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 5px;">
+                Dados do <span class="medidor-num">#</span>º Medidor
             </div>
 
-            <div class="col-4">
-                <label class="form-label">Cabo Ramal</label>
-                <input type="text" name="unidades[INDEX][cabo]" class="cls-cabo form-control" placeholder="Automático...">
-            </div>
-            <div class="col-4">
-                <label class="form-label">Eletroduto</label>
-                <input type="text" name="unidades[INDEX][eletroduto]" class="cls-eletroduto form-control" placeholder="Automático...">
-            </div>
-            <div class="col-4">
-                <label class="form-label">Disjuntor (Texto)</label>
-                <input type="text" name="unidades[INDEX][disjuntor]" class="cls-disjuntor form-control" placeholder="Automático...">
+            <div class="form-grid">
+
+                <div class="col-3">
+                    <label class="form-label">Classe</label>
+                    <select name="unidades[INDEX][classe]" class="cls-classe form-control">
+                        <option value="Residencial">Residencial</option>
+                        <option value="Comercial">Comercial</option>
+                        <option value="Industrial">Industrial</option>
+                        <option value="B. Incendio">Bomba Incêndio</option>
+                        <option value="Condominio">Condomínio</option>
+                    </select>
+                </div>
+                <div class="col-2">
+                    <label class="form-label">Nº de fases</label>
+                    <select name="unidades[INDEX][categoria]" class="cls-categoria form-control" onchange="aoMudarCategoriaDaLinha(this)">
+                        <option value="M">Monofásica</option>
+                        <option value="B">Bifásica</option>
+                        <option value="T">Trifásica</option>
+                        <option value="Calcular">A Calcular</option>
+                    </select>
+                </div>
+                <div class="col-5">
+                    <label class="form-label">Categoria</label>
+                    <select name="unidades[INDEX][dimensionamento_id]" class="cls-dim-id form-control" onchange="aoMudarPadraoDaLinha(this)">
+                    </select>
+                </div>
+                <div class="col-2">
+                    <label class="form-label">Fases</label>
+                    <select name="unidades[INDEX][fases_especificas]" class="cls-fases form-control">
+                    </select>
+                </div>
+
+                <div class="col-4">
+                    <label class="form-label">Cabo Ramal</label>
+                    <input type="text" name="unidades[INDEX][cabo]" class="cls-cabo form-control" placeholder="Automático...">
+                </div>
+                <div class="col-4">
+                    <label class="form-label">Eletroduto</label>
+                    <input type="text" name="unidades[INDEX][eletroduto]" class="cls-eletroduto form-control" placeholder="Automático...">
+                </div>
+                <div class="col-4">
+                    <label class="form-label">Disjuntor</label>
+                    <input type="text" name="unidades[INDEX][disjuntor]" class="cls-disjuntor form-control" placeholder="Automático...">
+                </div>
+
+                <div class="col-3">
+                    <label class="form-label">Identificação</label>
+                    <input type="text" name="unidades[INDEX][placa]" class="cls-placa form-control" placeholder="Ex: Casa 1" style="font-weight: bold;">
+                </div>
+                <div class="col-3">
+                    <label class="form-label">Nº UC (Opcional)</label>
+                    <input type="text" name="unidades[INDEX][numero_uc]" class="cls-uc form-control" placeholder="Ex: 112121">
+                </div>
+                <div class="col-6">
+                    <label class="form-label">Observações</label>
+                    <input type="text" name="unidades[INDEX][observacao]" class="cls-obs form-control" placeholder="Detalhes adicionais...">
+                </div>
             </div>
 
-            <div class="col-3">
-                <label class="form-label">Identificação</label>
-                <input type="text" name="unidades[INDEX][placa]" class="cls-placa form-control" placeholder="Ex: Casa 1" style="font-weight: bold;">
-            </div>
-            <div class="col-3">
-                <label class="form-label">Nº UC (Opcional)</label>
-                <input type="text" name="unidades[INDEX][numero_uc]" class="cls-uc form-control" placeholder="Ex: 112121">
-            </div>
-            <div class="col-6">
-                <label class="form-label">Observações</label>
-                <input type="text" name="unidades[INDEX][observacao]" class="cls-obs form-control" placeholder="Detalhes adicionais...">
-            </div>
+            <input type="hidden" class="inp-info-tec" name="unidades[INDEX][info_tecnica]">
         </div>
-
-        <input type="hidden" class="inp-info-tec" name="unidades[INDEX][info_tecnica]">
-    </div>
-</template>
+    </template> -->
 
 </div>
 

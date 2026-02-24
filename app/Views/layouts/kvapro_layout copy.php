@@ -1,3 +1,4 @@
+<!-- app/Views/layouts/kvapro_layout.php -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -9,14 +10,14 @@
     <link rel="icon" type="image/png" href="<?= base_url('assets/img/favicon.png') ?>" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('assets/css/kvapro.css') ?>">
+
 </head>
 
 <body>
-    <div class="overlay" id="mobileOverlay" onclick="handleSidebarToggle()"></div>
-
-    <?= $this->include('partials/kvapro_sidebar') ?>
-
     <div class="main-wrapper" id="mainWrapper">
+        <!-- Incluindo Partials -->
+        <?= $this->include('partials/kvapro_sidebar') ?>
+
         <header class="top-header">
             <div style="display: flex; align-items: center; gap: 20px;">
                 <button class="toggle-menu" onclick="handleSidebarToggle()"><i class="fas fa-bars"></i></button>
@@ -33,6 +34,7 @@
         </header>
 
         <div class="content">
+            <!-- Conteúdo específico da página -->
             <?= $this->renderSection('content') ?>
         </div>
 

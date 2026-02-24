@@ -12,7 +12,7 @@
         </a>
     </div>
 
-    <form method="post" action="<?= current_url() ?>">
+    <form method="post" action="<?= base_url('admin/materiais/salvar') ?>">
         <?= csrf_field() ?>
         
         <?php if(isset($item['id'])): ?>

@@ -1,3 +1,4 @@
+<!-- app/Views/admin/kits_form.php -->
 <?= $this->extend('layouts/kvapro_layout') ?>
 
 <?= $this->section('title') ?><?= isset($kit) ? 'Editar' : 'Novo' ?> Kit<?= $this->endSection() ?>
@@ -56,13 +57,7 @@
                             <thead>
                                 <tr>
                                     <th>Material Base (Descrição e Unidade)</th>
-                                    <th style="width: 100px; text-align: center;">Qtd Base</th>
-                                    <th style="width: 250px; text-align: center;">
-                                        Fórmula (Opcional)
-                                        <button type="button" onclick="abrirModalVariaveis()" style="background:none; border:none; color: #3498db; cursor: pointer; margin-left: 5px; font-size: 1rem;" title="Ver variáveis disponíveis">
-                                            <i class="fas fa-info-circle"></i>
-                                        </button>
-                                    </th>
+                                    <th style="width: 150px; text-align: center;">Quantidade</th>
                                     <th style="width: 80px; text-align: center;">Remover</th>
                                 </tr>
                             </thead>
@@ -89,7 +84,7 @@
 <template id="tpl-linha">
     <tr>
         <td style="padding: 8px 15px;">
-            <select name="materiais[]" class="form-control inp-material" style="border-color: #e0e0e0; background-color: #fcfcfc;" required>
+            <select name="materiais[]" class="form-control" style="border-color: #e0e0e0; background-color: #fcfcfc;" required>
                 <option value="">Selecione um material...</option>
                 <?php if (isset($todosMateriais)): ?>
                     <?php foreach ($todosMateriais as $m): ?>
@@ -101,10 +96,7 @@
             </select>
         </td>
         <td style="padding: 8px 15px;">
-            <input type="number" step="0.01" name="qtds[]" class="form-control inp-qtd" style="text-align: center; border-color: #e0e0e0;" value="1" required>
-        </td>
-        <td style="padding: 8px 15px;">
-            <input type="text" name="regras_qtd[]" class="form-control inp-formula" style="border-color: #e0e0e0; font-family: monospace; font-size: 0.85rem;" placeholder="Ex: {terra_hastes} * 3 + 2">
+            <input type="number" step="0.01" name="qtds[]" class="form-control" style="text-align: center; border-color: #e0e0e0;" value="1" required>
         </td>
         <td style="text-align: center; padding: 8px 15px;">
             <button type="button" onclick="removerLinha(this)" title="Remover Material" style="background: none; border: none; color: #e74c3c; cursor: pointer; padding: 5px; font-size: 1.1rem; transition: color 0.2s;">
@@ -132,10 +124,9 @@
         const tbody = document.getElementById('lista-itens');
 
         if (dados) {
-            // Usa querySelector com as classes específicas para preencher os valores do banco
-            clone.querySelector('.inp-material').value = dados.material_id;
-            clone.querySelector('.inp-qtd').value = parseFloat(dados.quantidade);
-            clone.querySelector('.inp-formula').value = dados.regra_qtd || ''; // Preenche a fórmula se existir
+            // Usa querySelector para encontrar o select e o input da nova linha clonada
+            clone.querySelector('select').value = dados.material_id;
+            clone.querySelector('input').value = parseFloat(dados.quantidade);
         }
 
         tbody.appendChild(clone);
@@ -144,80 +135,6 @@
     function removerLinha(btn) {
         // Encontra a linha <tr> mais próxima e remove
         btn.closest('tr').remove();
-    }
-</script>
-
-<div id="modal-variaveis" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; backdrop-filter: blur(2px);">
-    <div style="background-color: #fff; padding: 25px; border-radius: 8px; width: 90%; max-width: 650px; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
-            <h3 style="margin: 0; color: var(--navy-dark); font-size: 1.2rem;">
-                <i class="fas fa-code" style="color: #3498db; margin-right: 8px;"></i> Dicionário de Variáveis
-            </h3>
-            <button type="button" onclick="fecharModalVariaveis()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #999; line-height: 1;">&times;</button>
-        </div>
-
-        <p style="font-size: 0.9rem; color: #666; margin-bottom: 20px; background: #f8f9fa; padding: 10px; border-radius: 6px; border-left: 3px solid #f39c12;">
-            <i class="fas fa-lightbulb" style="color: #f39c12; margin-right: 5px;"></i>
-            <strong>Dica:</strong> Clique em qualquer botão abaixo para <b>copiar a variável</b>. Depois é só colar (Ctrl+V) no campo de fórmula ou no nome do material.
-        </p>
-
-        <?php if (isset($variaveisProjeto)): ?>
-            <?php foreach ($variaveisProjeto as $grupo => $vars): ?>
-                <h4 style="margin-top: 20px; margin-bottom: 10px; font-size: 0.95rem; color: #2c3e50; border-bottom: 1px dashed #ddd; padding-bottom: 5px;">
-                    <?= $grupo ?>
-                </h4>
-                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px;">
-                    <?php foreach ($vars as $chave => $label): ?>
-                        <button type="button" onclick="copiarVariavel(this, '{<?= $chave ?>}')"
-                            style="background: #f1f5f9; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-family: monospace; font-size: 0.85rem; color: #0f172a; transition: all 0.2s;"
-                            title="<?= $label ?>">
-                            {<?= $chave ?>}
-                        </button>
-                    <?php endforeach; ?>
-                </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
-
-    </div>
-</div>
-
-<script>
-    function abrirModalVariaveis() {
-        document.getElementById('modal-variaveis').style.display = 'flex';
-    }
-
-    function fecharModalVariaveis() {
-        document.getElementById('modal-variaveis').style.display = 'none';
-    }
-
-    // Copia a variável e dá um feedback visual no botão
-    function copiarVariavel(btn, texto) {
-        navigator.clipboard.writeText(texto).then(() => {
-            // Salva o texto original
-            const textoOriginal = btn.innerHTML;
-            // Muda cor e texto para dar feedback
-            btn.style.backgroundColor = '#d4edda';
-            btn.style.borderColor = '#c3e6cb';
-            btn.style.color = '#155724';
-            btn.innerHTML = '<i class="fas fa-check"></i> Copiado';
-
-            // Volta ao normal após 1.5 segundos
-            setTimeout(() => {
-                btn.style.backgroundColor = '#f1f5f9';
-                btn.style.borderColor = '#cbd5e1';
-                btn.style.color = '#0f172a';
-                btn.innerHTML = textoOriginal;
-            }, 1500);
-        });
-    }
-
-    // Fecha o modal se clicar fora da caixa branca
-    window.onclick = function(event) {
-        let modal = document.getElementById('modal-variaveis');
-        if (event.target == modal) {
-            fecharModalVariaveis();
-        }
     }
 </script>
 

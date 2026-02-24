@@ -21,14 +21,14 @@
     <?php
 // Configurações do Projeto
 $temGeral = true;         // Variável booleana para Disjuntor Geral
-$qtdBarramentos = 1;     // Número de caixas de barramento
-$maxRows = 3;            // Máximo de linhas
+$qtdBarramentos = ($total_medidores > 7) ? 2: 1;     // Número de caixas de barramento
+$maxRows = ($total_medidores > 4) ? 3: 2;            // Máximo de linhas
 $scale = 0.4;
 
 // --- LÓGICA DE MONTAGEM DO GRID ---
 
 $total_itens_servico = ($temGeral ? 1 : 0) + $qtdBarramentos;
-$total_medidores = count($unidades);
+// $total_medidores = count($unidades);
 $total_slots_necessarios = $total_medidores + $total_itens_servico;
 
 $totalCols = ceil($total_slots_necessarios / $maxRows);

@@ -14,7 +14,7 @@ async function atualizarDimensionamentoGlobal() {
     if (!conc || !tens) return;
 
     const selectAdd = document.getElementById('add_disjuntor');
-    if (selectAdd) selectAdd.innerHTML = '<option value="">Carregando padrões...</option>';
+    if (selectAdd) selectAdd.innerHTML = '<option value="">Carregando...</option>';
 
     try {
         const resp = await fetch(`${API_URL_DIMENSIONAMENTO}?concessionaria=${conc}&tensao=${tens}`);
@@ -29,6 +29,14 @@ async function atualizarDimensionamentoGlobal() {
     }
 }
 
+// --- VERIFICAÇÃO DE RAMAL ---
+function isSubterraneo() {
+    const ramalSelect = document.getElementById('tipo_ramal');
+    if (!ramalSelect) return false;
+    const valor = ramalSelect.value.toLowerCase();
+    return valor.includes('subterrane') || valor.includes('subterrâneo');
+}
+
 // Filtra o select "lá de cima" (Painel Adicionar)
 function filtrarDisjuntoresLocalPainel() {
     const cat = document.getElementById('add_categoria').value;
@@ -40,7 +48,7 @@ function filtrarDisjuntoresLocalPainel() {
         return;
     }
 
-    const validos = dadosDimensionamentoCache.filter(d => d.categoria === cat);
+    const validos = dadosDimensionamentoCache.filter(d => d.categoria == cat);
     if (validos.length === 0) {
         select.add(new Option("Nenhum padrão disponível", ""));
     } else {
@@ -68,12 +76,12 @@ function getProximaFase(categoria) {
         return cargasFases[a] - cargasFases[b] || a.localeCompare(b);
     });
 
-    if (categoria === 'M') {
+    if (categoria === '1') {
         // Pega a fase mais "livre" (índice 0)
         const escolhida = fasesOrdenadas[0];
         cargasFases[escolhida]++; // Aumenta o peso dela
         return escolhida;
-    } else if (categoria === 'B') {
+    } else if (categoria === '2') {
         // Pega as DUAS fases mais "livres" (índice 0 e 1)
         const f1 = fasesOrdenadas[0];
         const f2 = fasesOrdenadas[1];
@@ -83,7 +91,7 @@ function getProximaFase(categoria) {
 
         // Retorna ordenado alfabeticamente (Ex: "AC" em vez de "CA")
         return [f1, f2].sort().join('');
-    } else if (categoria === 'T') {
+    } else if (categoria === '3') {
         cargasFases['A']++;
         cargasFases['B']++;
         cargasFases['C']++;
@@ -93,10 +101,10 @@ function getProximaFase(categoria) {
 }
 
 function getOpcoesFase(categoria) {
-    if (categoria === 'M') return ['A', 'B', 'C'];
+    if (categoria === '1') return ['A', 'B', 'C'];
     // Garante que todas as combinações possíveis apareçam
-    if (categoria === 'B') return ['AB', 'AC', 'BC', 'A', 'B'];
-    if (categoria === 'T') return ['ABC'];
+    if (categoria === '2') return ['AB', 'AC', 'BC', 'A', 'B'];
+    if (categoria === '3') return ['ABC'];
     return [''];
 }
 // --- 2. LÓGICA DE LISTA (CRIAÇÃO) ---
@@ -138,7 +146,7 @@ function adicionarNaLista() {
     if (dimId !== "0" && dimId !== "") {
         const dim = dadosDimensionamentoCache.find(d => d.id == dimId);
         if (dim) {
-            dadosBase.disjuntor = dim.corrente_disjuntor + "A";
+            dadosBase.disjuntor = dim.corrente_disjuntor ;
             dadosBase.info_tecnica = `${dim.subcategoria} - ${dim.corrente_disjuntor}A`;
         }
     }
@@ -173,67 +181,6 @@ function adicionarNaLista() {
     // Atualiza o painel visualmente com o próximo número disponível
     document.getElementById('numero_inicial_add').value = numeroAtual;
 }
-
-// function adicionarNaLista() {
-//     const emptyState = document.getElementById('empty-state');
-
-//     // Pega os dados INICIAIS do painel de cima
-//     const classe = document.getElementById('add_classe').value;
-//     const categoria = document.getElementById('add_categoria').value;
-//     const dimId = document.getElementById('add_disjuntor').value;
-//     const qtd = parseInt(document.getElementById('add_qtd').value) || 1;
-
-//     // [NOVO] Pega os cabos separados do painel
-//     const qtdFaseAdd = document.getElementById('qtd_fase').value;
-//     const faseAdd = document.getElementById('fase_add').value;
-//     const neutroAdd = document.getElementById('neutro_add').value;
-//     const eletrodutoAdd = document.getElementById('eletroduto_add').value;
-
-//     // PEGA OS DADOS DE IDENTIFICAÇÃO (PREFIXO E NUMERAÇÃO)
-//     const prefixo = document.getElementById('prefixo_add').value || '';
-//     let numeroAtual = parseInt(document.getElementById('numero_inicial_add').value) || 1;
-//     const incremento = parseInt(document.getElementById('incremento_add').value)
-
-//     if (!dimId && categoria !== 'Calcular') return;
-
-//     // Prepara objeto com dados iniciais
-//     let dadosIniciais = {
-//         classe: classe,
-//         categoria: categoria,
-//         dimensionamento_id: dimId,
-//         qtd_fase: qtdFaseAdd,
-//         fase: faseAdd,
-//         neutro: neutroAdd,
-//         eletroduto: eletrodutoAdd
-//     };
-
-//     // Se tiver um padrão selecionado, pega os detalhes técnicos
-//     if (dimId !== "0" && dimId !== "") {
-//         const dim = dadosDimensionamentoCache.find(d => d.id == dimId);
-//         if (dim) {
-//             dadosIniciais.cabo = dim.cabo;
-//             dadosIniciais.eletroduto = dim.eletroduto;
-//             dadosIniciais.disjuntor = dim.corrente_disjuntor + "A";
-//             dadosIniciais.info_tecnica = `${dim.subcategoria} - ${dim.corrente_disjuntor}A`;
-//         }
-//     }
-
-//     if (emptyState) emptyState.remove();
-
-//     for (let i = 0; i < qtd; i++) {
-//         // Calcula fase automática
-//         dadosIniciais.fases_especificas = getProximaFase(categoria);
-
-//         dadosLinha.placa = prefixo + numeroAtual;
-
-//         criarLinha(dadosIniciais);
-
-//         numeroAtual += incremento;
-//     }
-
-//     document.getElementById('numero_inicial_add').value = numeroAtual;
-// }
-
 
 function atualizarNumeracaoMedidores() {
     const linhas = document.querySelectorAll('#lista-unidades .unidade-row');
@@ -297,7 +244,7 @@ function criarLinha(dados) {
     // 2. Configura Select de Categoria
     const selCat = row.querySelector('.cls-categoria');
     selCat.value = dados.categoria;
-    row.querySelector('.cls-mbt').value = obterNumeroPolos(selCat.value);
+    // row.querySelector('.cls-mbt').value = obterNumeroPolos(selCat.value);
 
     // 3. Popula Select de Padrão/Dimensionamento (Baseado na categoria)
     popularSelectPadraoDaLinha(row, dados.dimensionamento_id);
@@ -319,10 +266,10 @@ function aoMudarCategoriaDaLinha(selectCat) {
     const row = selectCat.closest('.unidade-row');
     const novaCat = selectCat.value;
 
-    const inputMbt = row.querySelector('.cls-mbt');
-    if (inputMbt) {
-        inputMbt.value = obterNumeroPolos(novaCat);
-    }
+    // const inputMbt = row.querySelector('.cls-mbt');
+    // if (inputMbt) {
+    //     inputMbt.value = obterNumeroPolos(novaCat);
+    // }
 
     // 1. Atualiza lista de padrões
     popularSelectPadraoDaLinha(row, ''); // Reseta o padrão selecionado
@@ -336,22 +283,47 @@ function aoMudarPadraoDaLinha(selectDim) {
     const row = selectDim.closest('.unidade-row');
     const dimId = selectDim.value;
 
-    // Auto-preenche os dados técnicos
     if (dimId && dimId !== '0') {
         const dim = dadosDimensionamentoCache.find(d => d.id == dimId);
         if (dim) {
-            // row.querySelector('.cls-cabo').value = dim.cabo || '';
-            // NOVOS CAMPOS SEPARADOS
             row.querySelector('.cls-qtd-fase').value = dim.qtd_cabos_fase || '1';
-            row.querySelector('.cls-fase').value = dim.secao_fase || '';
-            row.querySelector('.cls-neutro').value = dim.secao_neutro || '';
+
+            // [NOVO] Lógica de Ramal
+            if (isSubterraneo()) {
+                row.querySelector('.cls-fase').value = dim.sub_fase || '';
+                row.querySelector('.cls-neutro').value = dim.sub_neutro || '';
+            } else {
+                row.querySelector('.cls-fase').value = dim.aereo_fase || '';
+                row.querySelector('.cls-neutro').value = dim.aereo_neutro || '';
+            }
 
             row.querySelector('.cls-eletroduto').value = dim.eletroduto || '';
-            row.querySelector('.cls-disjuntor').value = dim.corrente_disjuntor + "A";
+            row.querySelector('.cls-disjuntor').value = dim.corrente_disjuntor ;
             row.querySelector('.inp-info-tec').value = `${dim.subcategoria} - ${dim.corrente_disjuntor}A`;
         }
     }
 }
+
+// function aoMudarPadraoDaLinha(selectDim) {
+//     const row = selectDim.closest('.unidade-row');
+//     const dimId = selectDim.value;
+
+//     // Auto-preenche os dados técnicos
+//     if (dimId && dimId !== '0') {
+//         const dim = dadosDimensionamentoCache.find(d => d.id == dimId);
+//         if (dim) {
+//             // row.querySelector('.cls-cabo').value = dim.cabo || '';
+//             // NOVOS CAMPOS SEPARADOS
+//             row.querySelector('.cls-qtd-fase').value = dim.qtd_cabos_fase || '1';
+//             row.querySelector('.cls-fase').value = dim.secao_fase || '';
+//             row.querySelector('.cls-neutro').value = dim.secao_neutro || '';
+
+//             row.querySelector('.cls-eletroduto').value = dim.eletroduto || '';
+//             row.querySelector('.cls-disjuntor').value = dim.corrente_disjuntor + "A";
+//             row.querySelector('.inp-info-tec').value = `${dim.subcategoria} - ${dim.corrente_disjuntor}A`;
+//         }
+//     }
+// }
 
 // --- POPULADORES DE SELECT (INDIVIDUAL POR LINHA) ---
 
@@ -363,7 +335,7 @@ function popularSelectPadraoDaLinha(row, valorSelecionado) {
     if (cat === 'Calcular') {
         select.add(new Option("Cálculo Automático", "0"));
     } else {
-        const validos = dadosDimensionamentoCache.filter(d => d.categoria === cat);
+        const validos = dadosDimensionamentoCache.filter(d => d.categoria == cat);
         if (validos.length === 0) {
             select.add(new Option("Sem padrão", ""));
         } else {
@@ -380,25 +352,23 @@ function popularSelectPadraoDaLinha(row, valorSelecionado) {
     }
 }
 
-// Converte a letra no número de polos
-function obterNumeroPolos(categoria) {
-    if (categoria === 'M') return '1';
-    if (categoria === 'B') return '2';
-    if (categoria === 'T') return '3';
-    return '1'; // Padrão
-}
+// // Converte a letra no número de polos
+// function obterNumeroPolos(categoria) {
+//     if (categoria === '1') return '1';
+//     if (categoria === '2') return '2';
+//     if (categoria === '3') return '3';
+//     return '1'; // Padrão
+// }
 
 // --- PREENCHE OS CAMPOS DE CABO/ELETRODUTO NO PAINEL DE ADICIONAR ---
 function preencherDadosCabosPainel() {
     const dimId = document.getElementById('add_disjuntor').value;
 
-    // Pega os inputs
-    const inputQtd = document.getElementById('qtd_fase_add'); // Notei que no seu HTML o id está qtd_fase_add (sem _add)
+    const inputQtd = document.getElementById('qtd_fase_add');
     const inputFase = document.getElementById('fase_add');
     const inputNeutro = document.getElementById('neutro_add');
     const inputEletroduto = document.getElementById('eletroduto_add');
 
-    // Se escolheu "A Calcular" (0) ou vazio, limpa os campos
     if (!dimId || dimId === "0") {
         inputQtd.value = '1';
         inputFase.value = '';
@@ -407,19 +377,55 @@ function preencherDadosCabosPainel() {
         return;
     }
 
-    // Procura no cache o dimensionamento escolhido
     const dim = dadosDimensionamentoCache.find(d => d.id == dimId);
 
     if (dim) {
-        // Preenche os inputs com os dados do banco (ajuste os nomes das propriedades se vierem diferentes na API)
         inputQtd.value = dim.qtd_cabos_fase || '1';
-        inputFase.value = dim.secao_fase || '';
-        inputNeutro.value = dim.secao_neutro || '';
 
-        // Mantive eletroduto assumindo que a coluna continua se chamando assim
+        // [NOVO] Lógica de Ramal: Escolhe o cabo certo!
+        if (isSubterraneo()) {
+            inputFase.value = dim.sub_fase || '';
+            inputNeutro.value = dim.sub_neutro || '';
+        } else {
+            inputFase.value = dim.aereo_fase || '';
+            inputNeutro.value = dim.aereo_neutro || '';
+        }
+
         inputEletroduto.value = dim.eletroduto || '';
     }
 }
+
+// function preencherDadosCabosPainel() {
+//     const dimId = document.getElementById('add_disjuntor').value;
+
+//     // Pega os inputs
+//     const inputQtd = document.getElementById('qtd_fase_add'); // Notei que no seu HTML o id está qtd_fase_add (sem _add)
+//     const inputFase = document.getElementById('fase_add');
+//     const inputNeutro = document.getElementById('neutro_add');
+//     const inputEletroduto = document.getElementById('eletroduto_add');
+
+//     // Se escolheu "A Calcular" (0) ou vazio, limpa os campos
+//     if (!dimId || dimId === "0") {
+//         inputQtd.value = '1';
+//         inputFase.value = '';
+//         inputNeutro.value = '';
+//         inputEletroduto.value = '';
+//         return;
+//     }
+
+//     // Procura no cache o dimensionamento escolhido
+//     const dim = dadosDimensionamentoCache.find(d => d.id == dimId);
+
+//     if (dim) {
+//         // Preenche os inputs com os dados do banco (ajuste os nomes das propriedades se vierem diferentes na API)
+//         inputQtd.value = dim.qtd_cabos_fase || '1';
+//         inputFase.value = dim.secao_fase || '';
+//         inputNeutro.value = dim.secao_neutro || '';
+
+//         // Mantive eletroduto assumindo que a coluna continua se chamando assim
+//         inputEletroduto.value = dim.eletroduto || '';
+//     }
+// }
 
 function popularSelectFasesDaLinha(row, valorSelecionado) {
     const cat = row.querySelector('.cls-categoria').value;
@@ -617,14 +623,33 @@ async function preencherTudo(data) {
             const dim = dadosDimensionamentoCache.find(d => d.id == item.dimensionamento_id);
 
             if (dim) {
-                // Monta o objeto com os dados do cache em vez de tentar alterar o HTML aqui
                 dadosLinha.qtd_fase = dim.qtd_cabos_fase || '1';
-                dadosLinha.fase = dim.secao_fase || '';
-                dadosLinha.neutro = dim.secao_neutro || '';
+
+                // [NOVO] Lógica de Ramal na Importação
+                // Avalia se o JSON salvo diz que é subterrâneo
+                const isSub = data.tipo_ramal && (data.tipo_ramal.toLowerCase().includes('subterrane') || data.tipo_ramal.toLowerCase().includes('subterrâneo'));
+
+                if (isSub) {
+                    dadosLinha.fase = dim.sub_fase || '';
+                    dadosLinha.neutro = dim.sub_neutro || '';
+                } else {
+                    dadosLinha.fase = dim.aereo_fase || '';
+                    dadosLinha.neutro = dim.aereo_neutro || '';
+                }
+
                 dadosLinha.eletroduto = dim.eletroduto;
-                dadosLinha.disjuntor = dim.corrente_disjuntor + "A";
+                dadosLinha.disjuntor = dim.corrente_disjuntor ;
                 dadosLinha.info_tecnica = `${dim.subcategoria} - ${dim.corrente_disjuntor}A`;
             }
+            // if (dim) {
+            //     // Monta o objeto com os dados do cache em vez de tentar alterar o HTML aqui
+            //     dadosLinha.qtd_fase = dim.qtd_cabos_fase || '1';
+            //     dadosLinha.fase = dim.secao_fase || '';
+            //     dadosLinha.neutro = dim.secao_neutro || '';
+            //     dadosLinha.eletroduto = dim.eletroduto;
+            //     dadosLinha.disjuntor = dim.corrente_disjuntor + "A";
+            //     dadosLinha.info_tecnica = `${dim.subcategoria} - ${dim.corrente_disjuntor}A`;
+            // }
             // if (dim) {
             //     // dadosLinha.cabo = dim.cabo;
             //     // NOVOS CAMPOS SEPARADOS
@@ -708,16 +733,48 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (!ramalSelect || !travessiaDiv) return;
 
-        const valorRamal = ramalSelect.value.toLowerCase();
-
-        // Lógica para esconder/mostrar sem Tailwind
-        if (valorRamal.includes('subterrane') || valorRamal.includes('subterrâneo')) {
-            travessiaDiv.style.display = 'none'; // Mudou de .classList.add('hidden')
+        // Usa a nova função centralizada
+        if (isSubterraneo()) {
+            travessiaDiv.style.display = 'none';
             if (travessiaInput) travessiaInput.value = '';
         } else {
-            travessiaDiv.style.display = 'block'; // Mudou de .classList.remove('hidden')
+            travessiaDiv.style.display = 'block';
         }
+
+        // 1. Atualiza os cabos do painel "Adicionar"
+        preencherDadosCabosPainel();
+
+        // 2. Atualiza os cabos de TODAS as unidades que já estão na tabela embaixo
+        atualizarCabosDasLinhas();
     }
+
+    // [NOVA FUNÇÃO] Varre a tabela e manda atualizar os cabos de quem já foi criado
+    function atualizarCabosDasLinhas() {
+        const selectsDim = document.querySelectorAll('.unidade-row .cls-dim-id');
+        selectsDim.forEach(select => {
+            // Dispara a mesma função que roda quando o usuário escolhe um padrão manualmente
+            aoMudarPadraoDaLinha(select);
+        });
+    }
+    // // Função que verifica e esconde/mostra
+    // function toggleTravessia() {
+    //     const ramalSelect = document.getElementById('tipo_ramal');
+    //     const travessiaDiv = document.getElementById('div_travessia');
+    //     const travessiaInput = document.getElementById('travessia');
+
+    //     if (!ramalSelect || !travessiaDiv) return;
+
+    //     const valorRamal = ramalSelect.value.toLowerCase();
+
+    //     // Lógica para esconder/mostrar sem Tailwind
+    //     if (valorRamal.includes('subterrane') || valorRamal.includes('subterrâneo')) {
+    //         travessiaDiv.style.display = 'none'; // Mudou de .classList.add('hidden')
+    //         if (travessiaInput) travessiaInput.value = '';
+    //     } else {
+    //         travessiaDiv.style.display = 'block'; // Mudou de .classList.remove('hidden')
+    //     }
+    //     preencherDadosCabosPainel();
+    // }
 
     // Se o campo existir, adiciona o evento
     if (ramalSelect) {

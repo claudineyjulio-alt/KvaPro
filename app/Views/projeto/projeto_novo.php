@@ -109,6 +109,15 @@
                             <option value="Pontalete">Pontalete</option>
                         </select>
                     </div>
+                    <div class="col-12" id="div_travessia">
+                        <label class="form-label">Travessia</label>
+                        <select name="travessia" id="travessia" class="form-control">
+                            <option value="pedestre">Atravessa a calçada</option>
+                            <option value="rua">Atravessa a rua</option>
+                            <option value="garagem">Atravessa entrada de veiculos</option>
+                            <option value="rodovia">Atravessa a rodovia</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
@@ -136,9 +145,9 @@
                     <div class="col-4">
                         <label class="form-label">Tipo</label>
                         <select id="add_categoria" class="form-control" onchange="filtrarDisjuntoresLocalPainel()">
-                            <option value="M">Monofásica</option>
-                            <option value="B">Bifásica</option>
-                            <option value="T">Trifásica</option>
+                            <option value="1">Monofásica</option>
+                            <option value="2">Bifásica</option>
+                            <option value="3">Trifásica</option>
                             <option value="Calcular">A Calcular</option>
                         </select>
                     </div>
@@ -278,7 +287,7 @@
                     </div>
                     <div class="col-2">
                         <label class="form-label">Eletroduto Terra (Ø")</label>
-                        <input type="text" name="terra_tubo" id="terra_tubo" value='3/4"' class="form-control">
+                        <input type="text" name="terra_tubo" id="terra_tubo" value='3/4' class="form-control">
                     </div>
                     <div class="col-2">
                         <label class="form-label">Nº de Hastes</label>
@@ -348,9 +357,9 @@
                 <div class="col-2">
                     <label class="form-label">Nº de fases</label>
                     <select name="unidades[INDEX][categoria]" class="cls-categoria form-control" onchange="aoMudarCategoriaDaLinha(this)">
-                        <option value="M">Monofásica</option>
-                        <option value="B">Bifásica</option>
-                        <option value="T">Trifásica</option>
+                        <option value="1">Monofásica</option>
+                        <option value="2">Bifásica</option>
+                        <option value="3">Trifásica</option>
                         <option value="Calcular">A Calcular</option>
                     </select>
                 </div>
@@ -401,7 +410,7 @@
             </div>
 
             <input type="hidden" class="inp-info-tec" name="unidades[INDEX][info_tecnica]">
-            <input type="hidden" name="unidades[INDEX][mbt]" class="cls-mbt" value="1">
+            <!-- <input type="hidden" name="unidades[INDEX][mbt]" class="cls-mbt" value="1"> -->
         </div>
     </template>
 

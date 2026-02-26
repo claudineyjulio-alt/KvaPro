@@ -93,7 +93,7 @@ $viewHeight = ($maxRows * ($h + $gap)) + $gap;
                     <rect x="60" y="260" width="180" height="30" fill="none" stroke="black" stroke-width="2" />
 
                     <?php
-                        $polos = (int)($item['mbt'] ?? 1);
+                        $polos = (int)($item['categoria'] ?? 1);
                         $larguraModulo = 25;
                         $totalLargura = $polos * $larguraModulo;
                         $startX = 240 - $totalLargura;

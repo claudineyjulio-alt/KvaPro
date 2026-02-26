@@ -83,6 +83,13 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 
         // Excluir
         $routes->get('regras-materiais/excluir/(:num)', 'Admin\RegrasMateriais::excluir/$1');
+
+
+        // --- ROTAS DE DIMENSIONAMENTO ---
+        $routes->get('dimensionamento', 'Admin\Dimensionamento::index');
+        $routes->match(['get', 'post'], 'dimensionamento/novo', 'Admin\Dimensionamento::form');
+        $routes->match(['get', 'post'], 'dimensionamento/editar/(:num)', 'Admin\Dimensionamento::form/$1');
+        $routes->get('dimensionamento/excluir/(:num)', 'Admin\Dimensionamento::excluir/$1');
     });
 
 

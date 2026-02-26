@@ -231,8 +231,7 @@ class Projeto extends BaseController
             // Cria um ambiente virtual misturando os dados globais com os dados DESTA medição
             $pMedicao = $p;
             $pMedicao['unidade_classe']    = $m['classe'] ?? '';
-            $pMedicao['unidade_categoria'] = $m['mbt'] ?? '1';
-            // $pMedicao['unidade_categoria'] = $m['categoria'] ?? ''; // O seu 1, 2 ou 3
+            $pMedicao['unidade_categoria'] = $m['categoria'] ?? '1';
             $pMedicao['unidade_fase']      = $m['fase'] ?? '';
             $pMedicao['unidade_neutro']    = $m['neutro'] ?? '';
             $pMedicao['unidade_eletroduto'] = $m['eletroduto'] ?? '';
